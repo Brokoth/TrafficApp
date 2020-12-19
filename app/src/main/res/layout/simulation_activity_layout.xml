@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal_700"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar_sim"
+        layout="@layout/toolbar_with_back" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:scrollbarSize="5dp"
+        android:scrollbarThumbVertical="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/Login_Label"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp"
+                    android:text="Select a Junction Type: "
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="italic" />
+
+                <Spinner
+                    android:id="@+id/junction_type_spin"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:gravity="start"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:textAlignment="viewStart" />
+            </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/tjunction"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="60dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="Control (Timer based - 50s)"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="italic" />
+    <ImageView
+        android:id="@+id/tjunction_control"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/tjunction" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="Adaptable System (A.I. based)"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="italic" />
+    <ImageView
+        android:id="@+id/tjunction_ai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/tjunction"
+        />
+</LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/run_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
+        android:text="RUN"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/stop_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_red"
+        android:text="STOP"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="gone" />
+</RelativeLayout>

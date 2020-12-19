@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "587935270956",
+    "firebase_url": "https://traffic-app-c8919.firebaseio.com",
+    "project_id": "traffic-app-c8919",
+    "storage_bucket": "traffic-app-c8919.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587935270956:android:d9a64d3511b5ea3533a989",
+        "android_client_info": {
+          "package_name": "com.example.trafficapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587935270956-qc8voi5od2pooaa5s883nm8q9p9vh1m2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCuMcE5U-Zr7ZJDMetWG1BUgesUCPVj04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587935270956-qc8voi5od2pooaa5s883nm8q9p9vh1m2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

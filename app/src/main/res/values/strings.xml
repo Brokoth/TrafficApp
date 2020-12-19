@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Traffic App</string>
+    <string-array name="junctionTypes">
+        <item>T junction</item>
+        <item>Roundabout</item>
+    </string-array>
+</resources>
