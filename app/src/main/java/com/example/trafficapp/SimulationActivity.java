@@ -55,23 +55,19 @@ public class SimulationActivity extends AppCompatActivity {
         junctionspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               // Toast.makeText(SimulationActivity.this, junctionspinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
 
-                if ("T junction"==junctionspinner.getSelectedItem().toString()){
-                    Toast.makeText(SimulationActivity.this, "entered if statement", Toast.LENGTH_SHORT).show();
 
-//                    tjunction_con.setVisibility(View.VISIBLE);
-//                    tjunction_AI.setVisibility(View.VISIBLE);
-//                    rounda_con.setVisibility(View.GONE);
-//                    rounda_ai.setVisibility(View.GONE);
+                if ("T junction".equals(junctionspinner.getSelectedItem().toString())){
+                    tjunction_con.setVisibility(View.VISIBLE);
+                    tjunction_AI.setVisibility(View.VISIBLE);
+                    rounda_con.setVisibility(View.GONE);
+                    rounda_ai.setVisibility(View.GONE);
               }
                 else{
-                    Toast.makeText(SimulationActivity.this, "entered else statement", Toast.LENGTH_SHORT).show();
-
-//                    tjunction_con.setVisibility(View.GONE);
-//                    tjunction_AI.setVisibility(View.GONE);
-//                    rounda_con.setVisibility(View.VISIBLE);
-//                    rounda_ai.setVisibility(View.VISIBLE);
+                    tjunction_con.setVisibility(View.GONE);
+                    tjunction_AI.setVisibility(View.GONE);
+                    rounda_con.setVisibility(View.VISIBLE);
+                    rounda_ai.setVisibility(View.VISIBLE);
                }
             }
 
