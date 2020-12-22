@@ -29,7 +29,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/Login_Label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -57,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="60dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -69,22 +69,115 @@
                     android:textSize="15dp"
                     android:textStyle="italic" />
 
-                <ImageView
-                    android:id="@+id/tjunction_control"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/tjunction" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/roundabout_control"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/roundabout"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/tjunction_control"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/tjunction" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/t_con_light_1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="140dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/t_con_light_2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="250dp"
+                            android:layout_marginTop="50dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/t_con_light_3"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="170dp"
+                            android:layout_marginTop="80dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/t_con_lane_1_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+
+                        <TextView
+                            android:id="@+id/t_con_lane_2_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginTop="40dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/t_con_lane_3_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="170dp"
+                            android:layout_marginTop="140dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/t_con_lane_4_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="210dp"
+                            android:layout_marginTop="140dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/t_con_lane_5_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="300dp"
+                            android:layout_marginTop="40dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+
+                        <TextView
+                            android:id="@+id/t_con_lane_6_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="300dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,24 +189,434 @@
                     android:textSize="15dp"
                     android:textStyle="italic" />
 
-                <ImageView
-                    android:id="@+id/tjunction_ai"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/tjunction_ai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/tjunction" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/t_ai_light_1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="140dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/t_ai_light_2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="250dp"
+                            android:layout_marginTop="50dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/t_ai_light_3"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="170dp"
+                            android:layout_marginTop="80dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/t_ai_lane_1_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/t_ai_lane_2_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginTop="40dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/t_ai_lane_3_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="170dp"
+                            android:layout_marginTop="140dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/t_ai_lane_4_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="210dp"
+                            android:layout_marginTop="140dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/t_ai_lane_5_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="300dp"
+                            android:layout_marginTop="40dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/t_ai_lane_6_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="300dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/roundabout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="60dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/tjunction"
+                    android:layout_weight="1"
+                    android:paddingBottom="20dp"
+                    android:text="Control (Timer based - 50s)"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    android:textStyle="italic" />
 
-                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/roundabout_ai"
+                    <ImageView
+                        android:id="@+id/roundabout_control"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/roundabout" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/rounda_con_light_1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="225dp"
+                            android:layout_marginTop="50dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_light_2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="290dp"
+                            android:layout_marginTop="120dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_light_3"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="190dp"
+                            android:layout_marginTop="160dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_light_4"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="130dp"
+                            android:layout_marginTop="80dp"
+                            android:background="@drawable/traffic_light_red" />
+
+
+                        <TextView
+                            android:id="@+id/rounda_con_lane_1_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginTop="80dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_lane_2_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginTop="120dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_lane_3_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="185dp"
+                            android:layout_marginTop="180dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_lane_4_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="220dp"
+                            android:layout_marginTop="180dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_lane_5_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="340dp"
+                            android:layout_marginTop="120dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_lane_6_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="340dp"
+                            android:layout_marginTop="80dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_lane_7_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="220dp"
+                            android:layout_marginTop="20dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_con_lane_8_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="185dp"
+                            android:layout_marginTop="20dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/roundabout"
-                    android:visibility="gone" />
+                    android:layout_marginTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="Adaptable System (A.I. based)"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    android:textStyle="italic" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/roundabout_ai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/roundabout" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/rounda_ai_light_1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="225dp"
+                            android:layout_marginTop="50dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_light_2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="290dp"
+                            android:layout_marginTop="120dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_light_3"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="190dp"
+                            android:layout_marginTop="160dp"
+                            android:background="@drawable/traffic_light_red" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_light_4"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="130dp"
+                            android:layout_marginTop="80dp"
+                            android:background="@drawable/traffic_light_red" />
+
+
+                        <TextView
+                            android:id="@+id/rounda_ai_lane_1_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginTop="80dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_lane_2_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginTop="120dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_lane_3_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="185dp"
+                            android:layout_marginTop="180dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_lane_4_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="220dp"
+                            android:layout_marginTop="180dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_lane_5_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="340dp"
+                            android:layout_marginTop="120dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_lane_6_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="340dp"
+                            android:layout_marginTop="80dp"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_lane_7_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="220dp"
+                            android:layout_marginTop="20dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/rounda_ai_lane_8_out"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="185dp"
+                            android:layout_marginTop="20dp"
+                            android:rotation="90"
+                            android:text="0.0"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>
