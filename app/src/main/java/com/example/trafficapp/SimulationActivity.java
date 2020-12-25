@@ -3,6 +3,7 @@ package com.example.trafficapp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,10 +21,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SimulationActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseFirestore db;
     private ImageView back;
     private Button startsim, stopsim;
     private LinearLayout tjunction_layout, roundabout_layout;
@@ -40,6 +46,7 @@ public class SimulationActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_sim);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        db = FirebaseFirestore.getInstance();
         tjunction_layout = findViewById(R.id.tjunction);
         roundabout_layout = findViewById(R.id.roundabout);
         tjunction_con_light_1 = findViewById(R.id.t_con_light_1);
@@ -93,9 +100,11 @@ public class SimulationActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stop_simulation();
                 Intent intent = new Intent(SimulationActivity.this,
                         HomeActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         final Spinner junctionspinner = findViewById(R.id.junction_type_spin);
@@ -106,7 +115,7 @@ public class SimulationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
+                stop_simulation();
                 if ("T junction".equals(junctionspinner.getSelectedItem().toString())) {
                     tjunction_layout.setVisibility(View.VISIBLE);
                     roundabout_layout.setVisibility(View.GONE);
@@ -129,6 +138,7 @@ public class SimulationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startsim.setVisibility(View.GONE);
                 stopsim.setVisibility(View.VISIBLE);
+                start_simulation(junctionspinner.getSelectedItem().toString());
             }
         });
         stopsim.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +146,7 @@ public class SimulationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startsim.setVisibility(View.VISIBLE);
                 stopsim.setVisibility(View.GONE);
+                stop_simulation();
             }
         });
 
@@ -143,6 +154,60 @@ public class SimulationActivity extends AppCompatActivity {
             startActivity(new Intent(SimulationActivity.this, LoginActivity.class));
         }
 
+    }
+
+    private void start_simulation(String junctionType) {
+
+        final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        POJO_simulation simulation = new POJO_simulation(id, junctionType);
+        db.collection("Simulations").add(simulation).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+
+                String simulationId = documentReference.getId();
+                db.collection("Simulations").document(simulationId).update("simulationId", simulationId).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        control_simulation(simulationId, id);
+                        ai_simulation(simulationId, id);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+    }
+
+    private void control_simulation(String simulationId, String userId) {
+
+    }
+
+    private void ai_simulation(String simulationId, String userId) {
+
+    }
+
+    private void stop_simulation() {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        stop_simulation();
+        Intent intent = new Intent(SimulationActivity.this,
+                HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
