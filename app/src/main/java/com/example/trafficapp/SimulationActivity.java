@@ -32,8 +32,8 @@ public class SimulationActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ImageView back;
     private Button startsim, stopsim;
-    private LinearLayout tjunction_layout, roundabout_layout;
-    private TextView tjunction_con_light_1, tjunction_con_light_2, tjunction_con_light_3, tjunction_ai_light_1, tjunction_ai_light_2, tjunction_ai_light_3, tjunction_con_lane_1_in, tjunction_con_lane_2_out,
+    private LinearLayout tjunction_layout, roundabout_layout, j_selection_layout, d_selection_layout;
+    private TextView runningLabel, tjunction_con_light_1, tjunction_con_light_2, tjunction_con_light_3, tjunction_ai_light_1, tjunction_ai_light_2, tjunction_ai_light_3, tjunction_con_lane_1_in, tjunction_con_lane_2_out,
             tjunction_con_lane_3_in, tjunction_con_lane_4_out, tjunction_con_lane_5_in, tjunction_con_lane_6_out, tjunction_ai_lane_1_in, tjunction_ai_lane_2_out, tjunction_ai_lane_3_in, tjunction_ai_lane_4_out,
             tjunction_ai_lane_5_in, tjunction_ai_lane_6_out, roundabout_con_light_1, roundabout_con_light_2, roundabout_con_light_3, roundabout_con_light_4, roundabout_ai_light_1, roundabout_ai_light_2,
             roundabout_ai_light_3, roundabout_ai_light_4, roundabout_con_lane_1_in, roundabout_con_lane_2_out, roundabout_con_lane_3_in, roundabout_con_lane_4_out, roundabout_con_lane_5_in, roundabout_con_lane_6_out,
@@ -47,6 +47,9 @@ public class SimulationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         db = FirebaseFirestore.getInstance();
+        runningLabel = findViewById(R.id.running_label);
+        j_selection_layout = findViewById(R.id.junction_selection_layout);
+        d_selection_layout = findViewById(R.id.density_selection_layout);
         tjunction_layout = findViewById(R.id.tjunction);
         roundabout_layout = findViewById(R.id.roundabout);
         tjunction_con_light_1 = findViewById(R.id.t_con_light_1);
@@ -111,6 +114,10 @@ public class SimulationActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> junctionSpinneradapter = ArrayAdapter.createFromResource(this, R.array.junctionTypes, R.layout.spinner_item);
         junctionSpinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         junctionspinner.setAdapter(junctionSpinneradapter);
+        final Spinner densityspinner = findViewById(R.id.density_type_spin);
+        ArrayAdapter<CharSequence> densitySpinneradapter = ArrayAdapter.createFromResource(this, R.array.densityTypes, R.layout.spinner_item);
+        densitySpinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        densityspinner.setAdapter(densitySpinneradapter);
         junctionspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -157,7 +164,9 @@ public class SimulationActivity extends AppCompatActivity {
     }
 
     private void start_simulation(String junctionType) {
-
+        j_selection_layout.setVisibility(View.GONE);
+        d_selection_layout.setVisibility(View.GONE);
+        runningLabel.setVisibility(View.VISIBLE);
         final String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         POJO_simulation simulation = new POJO_simulation(id, junctionType);
         db.collection("Simulations").add(simulation).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -197,12 +206,14 @@ public class SimulationActivity extends AppCompatActivity {
     }
 
     private void stop_simulation() {
-
+        j_selection_layout.setVisibility(View.VISIBLE);
+        d_selection_layout.setVisibility(View.VISIBLE);
+        runningLabel.setVisibility(View.GONE);
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         stop_simulation();
         Intent intent = new Intent(SimulationActivity.this,
                 HomeActivity.class);
@@ -229,6 +240,8 @@ public class SimulationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.signout:
+                stop_simulation();
+
                 auth.signOut();
                 startActivity(new Intent(SimulationActivity.this, LoginActivity.class));
                 finish();

@@ -4,4 +4,9 @@
         <item>T junction</item>
         <item>Roundabout</item>
     </string-array>
+    <string-array name="densityTypes">
+        <item>Randomized</item>
+        <item>Heavy Traffic</item>
+        <item>Light Traffic</item>
+    </string-array>
 </resources>
