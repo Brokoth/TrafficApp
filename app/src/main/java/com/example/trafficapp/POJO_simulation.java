@@ -3,6 +3,7 @@ package com.example.trafficapp;
 public class POJO_simulation {
     public String userID;
     public String junctionType;
+    public String densityType;
     public POJO_simulation() {
     }
 
@@ -23,8 +24,17 @@ public class POJO_simulation {
         this.junctionType = junctionType;
     }
 
-    public POJO_simulation(String userID, String junctionType) {
+    public String getDensityType() {
+        return densityType;
+    }
+
+    public void setDensityType(String densityType) {
+        this.densityType = densityType;
+    }
+
+    public POJO_simulation(String userID, String junctionType, String densityType) {
         this.userID = userID;
         this.junctionType = junctionType;
+        this.densityType = densityType;
     }
 }
