@@ -1,12 +1,12 @@
 package com.example.trafficapp;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.SystemClock;
-import android.util.Log;
+
+import java.util.Random;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,16 +39,43 @@ public class SimulationActivity extends AppCompatActivity {
     public static Boolean running = false;
     static Spinner junctionspinner = null, densityspinner = null;
     private LinearLayout tjunction_layout, roundabout_layout, j_selection_layout, d_selection_layout;
-    private TextView runningLabel, tjunction_con_light_1, tjunction_con_light_2, tjunction_con_light_3, tjunction_ai_light_1, tjunction_ai_light_2, tjunction_ai_light_3, tjunction_con_lane_1_in, tjunction_con_lane_2_out,
-            tjunction_con_lane_3_in, tjunction_con_lane_4_out, tjunction_con_lane_5_in, tjunction_con_lane_6_out, tjunction_ai_lane_1_in, tjunction_ai_lane_2_out, tjunction_ai_lane_3_in, tjunction_ai_lane_4_out,
-            tjunction_ai_lane_5_in, tjunction_ai_lane_6_out, roundabout_con_light_1, roundabout_con_light_2, roundabout_con_light_3, roundabout_con_light_4, roundabout_ai_light_1, roundabout_ai_light_2,
-            roundabout_ai_light_3, roundabout_ai_light_4, roundabout_con_lane_1_in, roundabout_con_lane_2_out, roundabout_con_lane_3_in, roundabout_con_lane_4_out, roundabout_con_lane_5_in, roundabout_con_lane_6_out,
-            roundabout_con_lane_7_in, roundabout_con_lane_8_out, roundabout_ai_lane_1_in, roundabout_ai_lane_2_out, roundabout_ai_lane_3_in, roundabout_ai_lane_4_out, roundabout_ai_lane_5_in, roundabout_ai_lane_6_out,
-            roundabout_ai_lane_7_in, roundabout_ai_lane_8_out, roundabout_ai_lane_2_in, roundabout_ai_lane_4_in, roundabout_con_lane_2_in, roundabout_con_lane_4_in, tjunction_con_lane_2_in, tjunction_ai_lane_2_in;
+    public static TextView tjunction_con_light_1, tjunction_con_light_2, tjunction_con_light_3, tjunction_ai_light_1, tjunction_ai_light_2, tjunction_ai_light_3,
+            roundabout_con_light_1, roundabout_con_light_2, roundabout_con_light_3, roundabout_con_light_4, roundabout_ai_light_1, roundabout_ai_light_2,
+            roundabout_ai_light_3, roundabout_ai_light_4;
+    public static TextView runningLabel, tjunction_con_lane_1_in, tjunction_con_lane_3_in,
+            tjunction_ai_lane_1_in, tjunction_ai_lane_3_in, roundabout_con_lane_1_in, roundabout_con_lane_3_in,
+            roundabout_ai_lane_1_in, roundabout_ai_lane_3_in, roundabout_ai_lane_2_in, roundabout_ai_lane_4_in,
+            roundabout_con_lane_2_in, roundabout_con_lane_4_in, tjunction_con_lane_2_in, tjunction_ai_lane_2_in;
     private static control_traffic_sequencing_thread controlTrafficSequencingThread;
     private static ai_traffic_sequencing_thread aiTrafficSequencingThread;
-    private static lanes_density_updates_thread lanesDensityUpdatesThread;
-
+    private static t_con_lane_1_add_thread conLane1AddThread;
+    private static t_con_lane_1_sub_thread conLane1SubThread;
+    private static t_con_lane_2_add_thread conLane2AddThread;
+    private static t_con_lane_2_sub_thread conLane2SubThread;
+    private static t_con_lane_3_add_thread conLane3AddThread;
+    private static t_con_lane_3_sub_thread conLane3SubThread;
+    private static t_ai_lane_1_add_thread aiLane1AddThread;
+    private static t_ai_lane_1_sub_thread aiLane1SubThread;
+    private static t_ai_lane_2_add_thread aiLane2AddThread;
+    private static t_ai_lane_2_sub_thread aiLane2SubThread;
+    private static t_ai_lane_3_add_thread aiLane3AddThread;
+    private static t_ai_lane_3_sub_thread aiLane3SubThread;
+    private static rounda_con_lane_1_add_thread roundaConLane1AddThread;
+    private static rounda_con_lane_1_sub_thread roundaConLane1SubThread;
+    private static rounda_con_lane_2_add_thread roundaConLane2AddThread;
+    private static rounda_con_lane_2_sub_thread roundaConLane2SubThread;
+    private static rounda_con_lane_3_add_thread roundaConLane3AddThread;
+    private static rounda_con_lane_3_sub_thread roundaConLane3SubThread;
+    private static rounda_con_lane_4_add_thread roundaConLane4AddThread;
+    private static rounda_con_lane_4_sub_thread roundaConLane4SubThread;
+    private static rounda_ai_lane_1_add_thread roundaAiLane1AddThread;
+    private static rounda_ai_lane_1_sub_thread roundaAiLane1SubThread;
+    private static rounda_ai_lane_2_add_thread roundaAiLane2AddThread;
+    private static rounda_ai_lane_2_sub_thread roundaAiLane2SubThread;
+    private static rounda_ai_lane_3_add_thread roundaAiLane3AddThread;
+    private static rounda_ai_lane_3_sub_thread roundaAiLane3SubThread;
+    private static rounda_ai_lane_4_add_thread roundaAiLane4AddThread;
+    private static rounda_ai_lane_4_sub_thread roundaAiLane4SubThread;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simulation_activity_layout);
@@ -90,33 +116,11 @@ public class SimulationActivity extends AppCompatActivity {
         roundabout_ai_lane_2_in = findViewById(R.id.rounda_ai_lane_2_in);
         roundabout_ai_lane_3_in = findViewById(R.id.rounda_ai_lane_3_in);
         roundabout_ai_lane_4_in = findViewById(R.id.rounda_ai_lane_4_in);
-        // tjunction_con_lane_2_out = findViewById(R.id.t_con_lane_2_out);
-        // tjunction_con_lane_4_out = findViewById(R.id.t_con_lane_4_out);
-        //tjunction_con_lane_5_in = findViewById(R.id.t_con_lane_5_in);
-        // tjunction_con_lane_6_out = findViewById(R.id.t_con_lane_6_out);
-        // tjunction_ai_lane_2_out = findViewById(R.id.t_ai_lane_2_out);
-        //tjunction_ai_lane_4_out = findViewById(R.id.t_ai_lane_4_out);
-        //tjunction_ai_lane_5_in = findViewById(R.id.t_ai_lane_5_in);
-        // tjunction_ai_lane_6_out = findViewById(R.id.t_ai_lane_6_out);
-        // roundabout_con_lane_2_out = findViewById(R.id.rounda_con_lane_2_out);
-        //  roundabout_con_lane_4_out = findViewById(R.id.rounda_con_lane_4_out);
-        //  roundabout_con_lane_5_in = findViewById(R.id.rounda_con_lane_5_in);
-        // roundabout_con_lane_6_out = findViewById(R.id.rounda_con_lane_6_out);
-        //  roundabout_con_lane_7_in = findViewById(R.id.rounda_con_lane_7_in);
-        //  roundabout_con_lane_8_out = findViewById(R.id.rounda_con_lane_8_out);
-        //  roundabout_ai_lane_2_out = findViewById(R.id.rounda_ai_lane_2_out);
-        //  roundabout_ai_lane_4_out = findViewById(R.id.rounda_ai_lane_4_out);
-        // roundabout_ai_lane_5_in = findViewById(R.id.rounda_ai_lane_5_in);
-        //  roundabout_ai_lane_6_out = findViewById(R.id.rounda_ai_lane_6_out);
-        //  roundabout_ai_lane_7_in = findViewById(R.id.rounda_ai_lane_7_in);
-        //  roundabout_ai_lane_8_out = findViewById(R.id.rounda_ai_lane_8_out);
-        //roundabout_ai_light_4.setText("red");
         startsim = findViewById(R.id.run_btn);
         stopsim = findViewById(R.id.stop_btn);
         back = toolbar.findViewById(R.id.back);
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Simulation");
-        // tjunction_con_light_1.setBackgroundResource(R.drawable.traffic_light_green);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,18 +180,140 @@ public class SimulationActivity extends AppCompatActivity {
                         db.collection("Simulations").document(simulationId).update("simulationId", simulationId).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                lanesDensityUpdatesThread = new lanes_density_updates_thread(10, densityspinner.getSelectedItem().toString(),junctionspinner.getSelectedItem().toString());
-                                lanesDensityUpdatesThread.start();
+
                                 if (junctionspinner.getSelectedItem().toString().equals("T junction")) {
+                                    conLane1AddThread = new t_con_lane_1_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    conLane1AddThread.start();
+                                    conLane1SubThread = new t_con_lane_1_sub_thread(1);
+                                    conLane1SubThread.start();
+                                    conLane2AddThread = new t_con_lane_2_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    conLane2AddThread.start();
+                                    conLane2SubThread = new t_con_lane_2_sub_thread(1);
+                                    conLane2SubThread.start();
+                                    conLane3AddThread = new t_con_lane_3_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    conLane3AddThread.start();
+                                    conLane3SubThread = new t_con_lane_3_sub_thread(1);
+                                    conLane3SubThread.start();
+                                    aiLane1AddThread = new t_ai_lane_1_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    aiLane1AddThread.start();
+                                    aiLane1SubThread = new t_ai_lane_1_sub_thread(1);
+                                    aiLane1SubThread.start();
+                                    aiLane2AddThread = new t_ai_lane_2_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    aiLane2AddThread.start();
+                                    aiLane2SubThread = new t_ai_lane_2_sub_thread(1);
+                                    aiLane2SubThread.start();
+                                    aiLane3AddThread = new t_ai_lane_3_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    aiLane3AddThread.start();
+                                    aiLane3SubThread = new t_ai_lane_3_sub_thread(1);
+                                    aiLane3SubThread.start();
                                     controlTrafficSequencingThread = new control_traffic_sequencing_thread(10, junctionspinner.getSelectedItem().toString(), SimulationActivity.this, tjunction_con_light_1, tjunction_con_light_2, tjunction_con_light_3);
+                                    controlTrafficSequencingThread.start();
                                     //  aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(),SimulationActivity.this,tjunction_ai_light_1,tjunction_ai_light_2,tjunction_ai_light_3);
-                                    controlTrafficSequencingThread.start();
                                     // aiTrafficSequencingThread.start();
+                                    if (densityspinner.getSelectedItem().toString().equals("Heavy Traffic")) {
+                                        tjunction_con_lane_1_in.setText("10");
+                                        tjunction_con_lane_2_in.setText("10");
+                                        tjunction_con_lane_3_in.setText("10");
+                                        tjunction_ai_lane_1_in.setText("10");
+                                        tjunction_ai_lane_2_in.setText("10");
+                                        tjunction_ai_lane_3_in.setText("10");
+
+                                    } else if (densityspinner.getSelectedItem().toString().equals("Light Traffic")) {
+                                        tjunction_con_lane_1_in.setText("2");
+                                        tjunction_con_lane_2_in.setText("2");
+                                        tjunction_con_lane_3_in.setText("2");
+                                        tjunction_ai_lane_1_in.setText("2");
+                                        tjunction_ai_lane_2_in.setText("2");
+                                        tjunction_ai_lane_3_in.setText("2");
+                                    } else {
+                                        Random rand = new Random();
+                                        int rand_no = rand.nextInt(11);
+                                        tjunction_con_lane_1_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        tjunction_con_lane_2_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        tjunction_con_lane_3_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        tjunction_ai_lane_1_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        tjunction_ai_lane_2_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        tjunction_ai_lane_3_in.setText(String.valueOf(rand_no));
+                                    }
                                 } else {
+                                    roundaConLane1AddThread = new rounda_con_lane_1_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    roundaConLane1AddThread.start();
+                                    roundaConLane1SubThread = new rounda_con_lane_1_sub_thread(1);
+                                    roundaConLane1SubThread.start();
+                                    roundaConLane2AddThread = new rounda_con_lane_2_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    roundaConLane2AddThread.start();
+                                    roundaConLane2SubThread = new rounda_con_lane_2_sub_thread(1);
+                                    roundaConLane2SubThread.start();
+                                    roundaConLane3AddThread = new rounda_con_lane_3_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    roundaConLane3AddThread.start();
+                                    roundaConLane3SubThread = new rounda_con_lane_3_sub_thread(1);
+                                    roundaConLane3SubThread.start();
+                                    roundaConLane4AddThread = new rounda_con_lane_4_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    roundaConLane4AddThread.start();
+                                    roundaConLane4SubThread = new rounda_con_lane_4_sub_thread(1);
+                                    roundaConLane4SubThread.start();
+                                    roundaAiLane1AddThread = new rounda_ai_lane_1_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    roundaAiLane1AddThread.start();
+                                    roundaAiLane1SubThread = new rounda_ai_lane_1_sub_thread(1);
+                                    roundaAiLane1SubThread.start();
+                                    roundaAiLane2AddThread = new rounda_ai_lane_2_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    roundaAiLane2AddThread.start();
+                                    roundaAiLane2SubThread = new rounda_ai_lane_2_sub_thread(1);
+                                    roundaAiLane2SubThread.start();
+                                    roundaAiLane3AddThread = new rounda_ai_lane_3_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    roundaAiLane3AddThread.start();
+                                    roundaAiLane3SubThread = new rounda_ai_lane_3_sub_thread(1);
+                                    roundaAiLane3SubThread.start();
+                                    roundaAiLane4AddThread = new rounda_ai_lane_4_add_thread(5, densityspinner.getSelectedItem().toString());
+                                    roundaAiLane4AddThread.start();
+                                    roundaAiLane4SubThread = new rounda_ai_lane_4_sub_thread(1);
+                                    roundaAiLane4SubThread.start();
                                     controlTrafficSequencingThread = new control_traffic_sequencing_thread(10, junctionspinner.getSelectedItem().toString(), SimulationActivity.this, roundabout_con_light_1, roundabout_con_light_2, roundabout_con_light_3, roundabout_con_light_4);
-                                    // aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(),SimulationActivity.this,roundabout_ai_light_1,roundabout_ai_light_2,roundabout_ai_light_3,roundabout_ai_light_4);
                                     controlTrafficSequencingThread.start();
+                                    // aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(),SimulationActivity.this,roundabout_ai_light_1,roundabout_ai_light_2,roundabout_ai_light_3,roundabout_ai_light_4);
                                     // aiTrafficSequencingThread.start();
+                                    if (densityspinner.getSelectedItem().toString().equals("Heavy Traffic")) {
+                                        roundabout_con_lane_1_in.setText("10");
+                                        roundabout_con_lane_2_in.setText("10");
+                                        roundabout_con_lane_3_in.setText("10");
+                                        roundabout_con_lane_4_in.setText("10");
+                                        roundabout_ai_lane_1_in.setText("10");
+                                        roundabout_ai_lane_2_in.setText("10");
+                                        roundabout_ai_lane_3_in.setText("10");
+                                        roundabout_ai_lane_4_in.setText("10");
+                                    } else if (densityspinner.getSelectedItem().toString().equals("Light Traffic")) {
+                                        roundabout_con_lane_1_in.setText("2");
+                                        roundabout_con_lane_2_in.setText("2");
+                                        roundabout_con_lane_3_in.setText("2");
+                                        roundabout_con_lane_4_in.setText("2");
+                                        roundabout_ai_lane_1_in.setText("2");
+                                        roundabout_ai_lane_2_in.setText("2");
+                                        roundabout_ai_lane_3_in.setText("2");
+                                        roundabout_ai_lane_4_in.setText("2");
+                                    } else {
+                                        Random rand = new Random();
+                                        int rand_no = rand.nextInt(11);
+                                        roundabout_con_lane_1_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        roundabout_con_lane_2_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        roundabout_con_lane_3_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        roundabout_con_lane_4_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        roundabout_ai_lane_1_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        roundabout_ai_lane_2_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        roundabout_ai_lane_3_in.setText(String.valueOf(rand_no));
+                                        rand_no = rand.nextInt(11);
+                                        roundabout_ai_lane_4_in.setText(String.valueOf(rand_no));
+                                    }
                                 }
 
 

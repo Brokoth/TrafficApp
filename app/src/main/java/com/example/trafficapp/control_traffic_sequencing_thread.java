@@ -46,6 +46,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                    light_1.setText("orange");
                 }
             });
 
@@ -54,6 +55,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                    light_1.setText("green");
                 }
             });
             SystemClock.sleep(seconds);
@@ -61,26 +63,19 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_1.setText("orange");
                     light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                    light_2.setText("orange");
                 }
             });
-
             SystemClock.sleep(3000);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_1.setText("red");
                     light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                    light_2.setText("green");
                 }
             });
             SystemClock.sleep(seconds);
@@ -88,12 +83,9 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_2.setText("orange");
                     light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                    light_3.setText("orange");
                 }
             });
             SystemClock.sleep(3000);
@@ -101,12 +93,9 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_2.setText("red");
                     light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                    light_3.setText("green");
                 }
             });
             SystemClock.sleep(seconds);
@@ -116,12 +105,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_3.setText("orange");
                         light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                        light_1.setText("orange");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -131,12 +117,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_3.setText("red");
                         light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                        light_1.setText("green");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -146,12 +129,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_1.setText("orange");
                         light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                        light_2.setText("orange");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -161,12 +141,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_1.setText("red");
                         light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                        light_2.setText("green");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -176,12 +153,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_2.setText("orange");
                         light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                        light_3.setText("orange");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -191,12 +165,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_2.setText("red");
                         light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                        light_3.setText("green");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -208,18 +179,11 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_1.setText("red");
                     light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_2.setText("red");
                     light_3.setBackgroundResource(R.drawable.traffic_light_red);
+                    light_3.setText("red");
                 }
             });
         } else {
@@ -228,6 +192,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                    light_1.setText("orange");
                 }
             });
 
@@ -236,6 +201,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                    light_1.setText("green");
                 }
             });
             SystemClock.sleep(seconds);
@@ -243,12 +209,9 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_1.setText("orange");
                     light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                    light_2.setText("orange");
                 }
             });
 
@@ -257,12 +220,9 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_1.setText("red");
                     light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                    light_2.setText("green");
                 }
             });
             SystemClock.sleep(seconds);
@@ -270,12 +230,9 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_2.setText("orange");
                     light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                    light_3.setText("orange");
                 }
             });
             SystemClock.sleep(3000);
@@ -283,12 +240,9 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_2.setText("red");
                     light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                    light_3.setText("red");
                 }
             });
             SystemClock.sleep(seconds);
@@ -296,12 +250,9 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_3.setText("orange");
                     light_4.setBackgroundResource(R.drawable.traffic_light_orange);
+                    light_4.setText("orange");
                 }
             });
             SystemClock.sleep(3000);
@@ -309,12 +260,9 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_3.setText("red");
                     light_4.setBackgroundResource(R.drawable.traffic_light_green);
+                    light_4.setText("green");
                 }
             });
             SystemClock.sleep(seconds);
@@ -323,12 +271,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_4.setBackgroundResource(R.drawable.traffic_light_orange);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_4.setText("orange");
                         light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                        light_1.setText("orange");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -338,12 +283,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_4.setBackgroundResource(R.drawable.traffic_light_red);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_4.setText("red");
                         light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                        light_1.setText("green");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -353,12 +295,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_1.setText("orange");
                         light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                        light_2.setText("orange");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -368,12 +307,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_1.setText("red");
                         light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                        light_2.setText("green");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -383,12 +319,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_2.setText("orange");
                         light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                        light_3.setText("orange");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -398,12 +331,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_2.setText("red");
                         light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                        light_3.setText("red");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -413,12 +343,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_3.setText("orange");
                         light_4.setBackgroundResource(R.drawable.traffic_light_orange);
+                        light_4.setText("orange");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -428,12 +355,9 @@ public class control_traffic_sequencing_thread extends Thread {
                     @Override
                     public void run() {
                         light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                    }
-                });
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                        light_3.setText("red");
                         light_4.setBackgroundResource(R.drawable.traffic_light_green);
+                        light_4.setText("green");
                     }
                 });
                 if (!SimulationActivity.running)
@@ -444,24 +368,13 @@ public class control_traffic_sequencing_thread extends Thread {
                 @Override
                 public void run() {
                     light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_1.setText("red");
                     light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_2.setText("red");
                     light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                }
-            });
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
+                    light_3.setText("red");
                     light_4.setBackgroundResource(R.drawable.traffic_light_red);
+                    light_4.setText("red");
                 }
             });
         }

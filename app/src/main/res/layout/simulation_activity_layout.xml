@@ -189,7 +189,7 @@
                         android:layout_above="@+id/horizontal_line_t_con"
                         android:layout_marginRight="70dp"
                         android:layout_toLeftOf="@+id/vertical_line_t_con"
-                        android:text="0.0"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
@@ -199,27 +199,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/horizontal_line_t_con"
-                        android:layout_marginTop="70dp"
-                        android:layout_toLeftOf="@+id/vertical_line_t_con"
-                        android:rotation="90"
-                        android:text="0.0"
+                        android:layout_marginLeft="70dp"
+                        android:layout_toRightOf="@+id/vertical_line_t_con"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
-
 
                     <TextView
                         android:id="@+id/t_con_lane_3_in"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/horizontal_line_t_con"
-                        android:layout_marginLeft="70dp"
-                        android:layout_toRightOf="@+id/vertical_line_t_con"
-                        android:text="0.0"
+                        android:layout_marginTop="70dp"
+                        android:layout_toLeftOf="@+id/vertical_line_t_con"
+                        android:rotation="90"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
-
 
                 </RelativeLayout>
 
@@ -305,38 +303,35 @@
                         android:layout_above="@+id/horizontal_line_t_ai"
                         android:layout_marginRight="70dp"
                         android:layout_toLeftOf="@+id/vertical_line_t_ai"
-                        android:text="0.0"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
-
 
                     <TextView
                         android:id="@+id/t_ai_lane_2_in"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/horizontal_line_t_ai"
-                        android:layout_marginTop="70dp"
-                        android:layout_toLeftOf="@+id/vertical_line_t_ai"
-                        android:rotation="90"
-                        android:text="0.0"
+                        android:layout_marginLeft="70dp"
+                        android:layout_toRightOf="@+id/vertical_line_t_ai"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
-
 
                     <TextView
                         android:id="@+id/t_ai_lane_3_in"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/horizontal_line_t_ai"
-                        android:layout_marginLeft="70dp"
-                        android:layout_toRightOf="@+id/vertical_line_t_ai"
-                        android:text="0.0"
+                        android:layout_marginTop="70dp"
+                        android:layout_toLeftOf="@+id/vertical_line_t_ai"
+                        android:rotation="90"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
-
 
                 </RelativeLayout>
 
@@ -445,55 +440,53 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/horizontal_line_rounda_con"
-                        android:layout_gravity="start"
-                        android:layout_marginRight="60dp"
-                        android:layout_toLeftOf="@+id/vertical_line_rounda_con"
-                        android:text="0.0"
-                        android:textAlignment="viewStart"
+                        android:layout_marginBottom="60dp"
+                        android:layout_toRightOf="@+id/vertical_line_rounda_con"
+                        android:rotation="90"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
-
 
                     <TextView
                         android:id="@+id/rounda_con_lane_2_in"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/horizontal_line_rounda_con"
-                        android:layout_marginTop="60dp"
-                        android:layout_toLeftOf="@+id/vertical_line_rounda_con"
-                        android:rotation="90"
-                        android:text="0.0"
+                        android:layout_marginLeft="60dp"
+                        android:layout_toRightOf="@+id/vertical_line_rounda_con"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
-
 
                     <TextView
                         android:id="@+id/rounda_con_lane_3_in"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/horizontal_line_rounda_con"
-                        android:layout_marginLeft="60dp"
-                        android:layout_toRightOf="@+id/vertical_line_rounda_con"
-                        android:text="0.0"
+                        android:layout_marginTop="60dp"
+                        android:layout_toLeftOf="@+id/vertical_line_rounda_con"
+                        android:rotation="90"
+                        android:text="0"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
-
 
                     <TextView
                         android:id="@+id/rounda_con_lane_4_in"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/horizontal_line_rounda_con"
-                        android:layout_marginBottom="60dp"
-                        android:layout_toRightOf="@+id/vertical_line_rounda_con"
-                        android:rotation="90"
-                        android:text="0.0"
+                        android:layout_gravity="start"
+                        android:layout_marginRight="60dp"
+                        android:layout_toLeftOf="@+id/vertical_line_rounda_con"
+                        android:text="0"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/green"
                         android:textSize="20dp"
                         android:textStyle="italic" />
+
                 </RelativeLayout>
 
                 <TextView
@@ -587,15 +580,15 @@
                             android:text="red"
                             android:textSize="0dp" />
 
-
                         <TextView
                             android:id="@+id/rounda_ai_lane_1_in"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_above="@+id/horizontal_line_rounda_ai"
-                            android:layout_marginRight="60dp"
-                            android:layout_toLeftOf="@+id/vertical_line_rounda_ai"
-                            android:text="0.0"
+                            android:layout_marginBottom="60dp"
+                            android:layout_toRightOf="@+id/vertical_line_rounda_ai"
+                            android:rotation="90"
+                            android:text="0"
                             android:textColor="@color/green"
                             android:textSize="20dp"
                             android:textStyle="italic" />
@@ -605,48 +598,46 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/horizontal_line_rounda_ai"
-                            android:layout_marginTop="60dp"
-                            android:layout_toLeftOf="@+id/vertical_line_rounda_ai"
-                            android:rotation="90"
-                            android:text="0.0"
+                            android:layout_marginLeft="60dp"
+                            android:layout_toRightOf="@+id/vertical_line_rounda_ai"
+                            android:text="0"
                             android:textColor="@color/green"
                             android:textSize="20dp"
                             android:textStyle="italic" />
-
 
                         <TextView
                             android:id="@+id/rounda_ai_lane_3_in"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/horizontal_line_rounda_ai"
-                            android:layout_marginLeft="60dp"
-                            android:layout_toRightOf="@+id/vertical_line_rounda_ai"
-                            android:text="0.0"
+                            android:layout_marginTop="60dp"
+                            android:layout_toLeftOf="@+id/vertical_line_rounda_ai"
+                            android:rotation="90"
+                            android:text="0"
                             android:textColor="@color/green"
                             android:textSize="20dp"
                             android:textStyle="italic" />
-
 
                         <TextView
                             android:id="@+id/rounda_ai_lane_4_in"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_above="@+id/horizontal_line_rounda_ai"
-                            android:layout_marginBottom="60dp"
-                            android:layout_toRightOf="@+id/vertical_line_rounda_ai"
-                            android:rotation="90"
-                            android:text="0.0"
+                            android:layout_marginRight="60dp"
+                            android:layout_toLeftOf="@+id/vertical_line_rounda_ai"
+                            android:text="0"
                             android:textColor="@color/green"
                             android:textSize="20dp"
                             android:textStyle="italic" />
 
-
                     </RelativeLayout>
 
                 </RelativeLayout>
+
             </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
     <Button
