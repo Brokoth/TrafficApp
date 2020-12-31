@@ -242,7 +242,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_2.setBackgroundResource(R.drawable.traffic_light_red);
                     light_2.setText("red");
                     light_3.setBackgroundResource(R.drawable.traffic_light_green);
-                    light_3.setText("red");
+                    light_3.setText("green");
                 }
             });
             SystemClock.sleep(seconds);
@@ -333,7 +333,7 @@ public class control_traffic_sequencing_thread extends Thread {
                         light_2.setBackgroundResource(R.drawable.traffic_light_red);
                         light_2.setText("red");
                         light_3.setBackgroundResource(R.drawable.traffic_light_green);
-                        light_3.setText("red");
+                        light_3.setText("green");
                     }
                 });
                 if (!SimulationActivity.running)
