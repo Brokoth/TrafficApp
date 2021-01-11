@@ -23,6 +23,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,6 +79,7 @@ public class SimulationActivity extends AppCompatActivity {
     private static rounda_ai_lane_3_sub_thread roundaAiLane3SubThread;
     private static rounda_ai_lane_4_add_thread roundaAiLane4AddThread;
     private static rounda_ai_lane_4_sub_thread roundaAiLane4SubThread;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simulation_activity_layout);
@@ -131,6 +135,7 @@ public class SimulationActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         junctionspinner = findViewById(R.id.junction_type_spin);
         ArrayAdapter<CharSequence> junctionSpinneradapter = ArrayAdapter.createFromResource(this, R.array.junctionTypes, R.layout.spinner_item);
         junctionSpinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -164,6 +169,8 @@ public class SimulationActivity extends AppCompatActivity {
         startsim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 running = true;
                 startsim.setVisibility(View.GONE);
                 stopsim.setVisibility(View.VISIBLE);
@@ -182,6 +189,7 @@ public class SimulationActivity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
 
                                 if (junctionspinner.getSelectedItem().toString().equals("T junction")) {
+
                                     conLane1AddThread = new t_con_lane_1_add_thread(5, densityspinner.getSelectedItem().toString());
                                     conLane1AddThread.start();
                                     conLane1SubThread = new t_con_lane_1_sub_thread(1);

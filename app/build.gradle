@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.chaquo.python'
 }
 
 android {
@@ -15,6 +16,19 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        sourceSets{
+            main{
+                python{
+                    srcDirs = ["src/main/python"]
+                }
+            }
+        }
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
+        python{
+            buildPython "C:/Users/Brokoth/AppData/Local/Programs/Python/Python38-32/python.exe"
+        }
     }
 
     buildTypes {
