@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.chaquo.python.PyObject;
@@ -44,10 +45,11 @@ public class ai_traffic_sequencing_thread extends Thread {
                 int lane1_val = Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString());
                 int lane2_val = Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString());
                 int lane3_val = Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString());
-                PyObject t_junction = pyObj.callAttr("t_junction", lane1_val, lane2_val, lane3_val);
-                int length = Array.getLength(t_junction);
+               PyObject t_junction = pyObj.callAttr("t_junction", lane1_val, lane2_val, lane3_val);
+                char[] result =t_junction.toString().replaceAll("[\\[\\]]","").toCharArray();
+                int length = Array.getLength(result);
                 for (int i = 0; i < length; i++) {
-                    if (String.valueOf(Array.get(t_junction, i)) == "0") {
+                    if (String.valueOf(Array.get(result, i)) == "0") {
                         new_green = i + 1;
                         break;
                     }
@@ -236,7 +238,8 @@ public class ai_traffic_sequencing_thread extends Thread {
                             });
                         }
                     }
-                } else {
+                }
+                else {
                     Random rand = new Random();
                     int rand_no = rand.nextInt(3) + 1;
                     if (SimulationActivity.tjunction_ai_light_1.getText().toString().equals("green")) {
@@ -432,9 +435,10 @@ public class ai_traffic_sequencing_thread extends Thread {
                 int lane3_val = Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString());
                 int lane4_val = Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString());
                 PyObject t_junction = pyObj.callAttr("roundabout", lane1_val, lane2_val, lane3_val, lane4_val);
-                int length = Array.getLength(t_junction);
+                char[] result =t_junction.toString().replaceAll("[\\[\\]]","").toCharArray();
+                int length = Array.getLength(result);
                 for (int i = 0; i < length; i++) {
-                    if (String.valueOf(Array.get(t_junction, i)) == "0") {
+                    if (String.valueOf(Array.get(result, i)) == "0") {
                         new_green = i + 1;
                         break;
                     }

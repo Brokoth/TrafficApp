@@ -27,6 +27,11 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
         python{
+            pip {
+                install "sklearn"
+                install "pandas"
+
+            }
             buildPython "C:/Users/Brokoth/AppData/Local/Programs/Python/Python38-32/python.exe"
         }
     }
