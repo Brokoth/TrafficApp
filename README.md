@@ -11,6 +11,6 @@ the datasets used to train the model can be located at [this](https://github.com
 Development of the appllcation will continue once the Chaquopy company offers me a license.
 
 ## HomeActivity
-![HomeActiviy.png]()
+![HomeActiviy.png](https://github.com/Brokoth/TrafficApp/blob/main/HomeActivity.PNG)
 ## SimulationActivity
 ![SimulationActivityy.png]()
