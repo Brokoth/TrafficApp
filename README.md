@@ -8,7 +8,7 @@ firebase as the backend.
 The python code can be found under [traffic_light_python_script.py](https://github.com/Brokoth/TrafficApp/blob/main/app/src/main/python/traffic_light_python_script.py) file,
 the datasets used to train the model can be located at [this](https://github.com/Brokoth/TrafficAppData/) repository and the Chaquopy implementation under the run() method of the [ai_traffic_sequencing_thread.java](https://github.com/Brokoth/TrafficApp/blob/main/app/src/main/java/com/example/trafficapp/ai_traffic_sequencing_thread.java) file.
 
-Development of the appllcation will continue once the Chaquopy company offers me a license.
+Development of the appllcation will continue once the Chaquopy company offers me an Open-source license.
 
 ## HomeActivity
 ![HomeActiviy.png](https://github.com/Brokoth/TrafficApp/blob/main/HomeActivity.PNG)
