@@ -19,7 +19,7 @@ from sklearn import metrics
 # uploaded = files.upload()
 def main():
     roundabout_training_data = pd.read_csv(
-        r'D:\Documents\School\is project\data\TrainingDataset - DatasetThreeRandMultipleGreens.csv')
+         'https://github.com/Brokoth/TrafficAppData/blob/main/TrainingDataset%20-%20RoundaboutDatasetThreeRandMultipleGreens.csv?raw=true')
     roundabout_independent_variables = roundabout_training_data.drop(
         ['LightOneColour', 'LightTwoColour', 'LightThreeColour', 'LightFourColour'],
         axis='columns')
@@ -31,12 +31,12 @@ def main():
         random_state=1)
 
     t_junction_training_data = pd.read_csv(
-        r'D:\Documents\School\is project\data\TrainingDataset - TjunctionDatasetThreeRandMultipleGreens.csv')
+        'https://github.com/Brokoth/TrafficAppData/blob/main/TrainingDataset%20-%20TjunctionDatasetThreeRandMultipleGreens.csv?raw=true')
     t_junction_independent_variables = t_junction_training_data.drop(
-        ['LightOneColour', 'LightTwoColour', 'LightThreeColour', 'LightFourColour'],
+        ['LightOneColour', 'LightTwoColour', 'LightThreeColour'],
         axis='columns')
     t_junction_target = t_junction_training_data[
-        ['LightOneColour', 'LightTwoColour', 'LightThreeColour', 'LightFourColour']].copy()
+        ['LightOneColour', 'LightTwoColour', 'LightThreeColour']].copy()
     t_junction_independent_variables_train, t_junction_independent_variables_test, t_junction_target_train, t_junction_target_test = train_test_split(
         t_junction_independent_variables,
         t_junction_target, test_size=0.3,
@@ -46,13 +46,13 @@ def main():
     rounda_model = RandomForestClassifier(n_estimators=100)
     rounda_model.fit(roundabout_independent_variables_train, roundabout_target_train)
     target_prediction = rounda_model.predict(roundabout_independent_variables_test)
-    print("Random Forest Accuracy:", metrics.accuracy_score(roundabout_target_test, target_prediction))
+    print("Roundabout Random Forest Accuracy:", metrics.accuracy_score(roundabout_target_test, target_prediction))
 
     global tjun_model
     tjun_model = RandomForestClassifier(n_estimators=100)
     tjun_model.fit(t_junction_independent_variables_train, t_junction_target_train)
     t_junction_target_prediction = tjun_model.predict(t_junction_independent_variables_test)
-    print("Random Forest Accuracy:", metrics.accuracy_score(t_junction_target_test, t_junction_target_prediction))
+    print("T-junction Random Forest Accuracy:", metrics.accuracy_score(t_junction_target_test, t_junction_target_prediction))
 
 
 def roundabout(lane_1_density, lane_2_density, lane_3_density, lane_4_density):

@@ -216,8 +216,8 @@ public class SimulationActivity extends AppCompatActivity {
                                     aiLane3SubThread.start();
                                     controlTrafficSequencingThread = new control_traffic_sequencing_thread(10, junctionspinner.getSelectedItem().toString(), SimulationActivity.this, tjunction_con_light_1, tjunction_con_light_2, tjunction_con_light_3);
                                     controlTrafficSequencingThread.start();
-                                    //  aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(),SimulationActivity.this,tjunction_ai_light_1,tjunction_ai_light_2,tjunction_ai_light_3);
-                                    // aiTrafficSequencingThread.start();
+                                    aiTrafficSequencingThread = new ai_traffic_sequencing_thread(10, junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
+                                    aiTrafficSequencingThread.start();
                                     if (densityspinner.getSelectedItem().toString().equals("Heavy Traffic")) {
                                         tjunction_con_lane_1_in.setText("10");
                                         tjunction_con_lane_2_in.setText("10");
@@ -283,8 +283,8 @@ public class SimulationActivity extends AppCompatActivity {
                                     roundaAiLane4SubThread.start();
                                     controlTrafficSequencingThread = new control_traffic_sequencing_thread(10, junctionspinner.getSelectedItem().toString(), SimulationActivity.this, roundabout_con_light_1, roundabout_con_light_2, roundabout_con_light_3, roundabout_con_light_4);
                                     controlTrafficSequencingThread.start();
-                                    // aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(),SimulationActivity.this,roundabout_ai_light_1,roundabout_ai_light_2,roundabout_ai_light_3,roundabout_ai_light_4);
-                                    // aiTrafficSequencingThread.start();
+                                    aiTrafficSequencingThread = new ai_traffic_sequencing_thread(10, junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
+                                    aiTrafficSequencingThread.start();
                                     if (densityspinner.getSelectedItem().toString().equals("Heavy Traffic")) {
                                         roundabout_con_lane_1_in.setText("10");
                                         roundabout_con_lane_2_in.setText("10");
