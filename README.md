@@ -13,4 +13,4 @@ Development of the appllcation will continue once the Chaquopy company offers me
 ## HomeActivity
 ![HomeActiviy.png](https://github.com/Brokoth/TrafficApp/blob/main/HomeActivity.PNG)
 ## SimulationActivity
-![SimulationActivityy.png]()
+![SimulationActivityy.png](https://github.com/Brokoth/TrafficApp/blob/main/SimulationActivity.PNG)
