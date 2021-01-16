@@ -1,16 +1,21 @@
 import cv2
 import youtube_dl
 import requests
+import pafy
 
-cars_xml_url = \
-    "https://github.com/Brokoth/TrafficAppData/blob/main/Vehicle%20and%20pedestrain%20detection/cars.xml?raw=true"
-cars_xml_file = requests.get(cars_xml_url).content
-with open('cars.xml', 'wb') as file:
-    file.write(cars_xml_file)
-cars_classifier = cv2.CascadeClassifier('cars.xml')
-ydl_opts = {}
-with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    camera = cv2.VideoCapture(ydl.download(['https://www.youtube.com/watch?v=e_WBuBqS9h8']))
+
+def car_detection(car_vid_url):
+    cars_xml_url = \
+        "https://github.com/Brokoth/TrafficAppData/blob/main/Vehicle%20and%20pedestrain%20detection/cars.xml?raw=true"
+    cars_xml_file = requests.get(cars_xml_url).content
+    with open('cars.xml', 'wb') as file:
+        file.write(cars_xml_file)
+    cars_classifier = cv2.CascadeClassifier('cars.xml')
+    video = pafy.new(car_vid_url)
+    best = video.getbest()
+    play_url = best.url
+    camera = cv2.VideoCapture(play_url)
+    print(camera.get(cv2.CAP_PROP_FPS))
     count = 0
     while True:
         ret, img = camera.read()
@@ -35,3 +40,8 @@ with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             break
     cv2.destroyAllWindows()
     camera.release()
+    return count
+
+
+vid_url = "https://www.youtube.com/watch?v=Y1jTEyb3wiI&list=PLxgQHbsjYVOhmhdGps5Fiw16Av3Ni1Kz0&index=22"
+car_detection(vid_url)
