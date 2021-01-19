@@ -54,8 +54,10 @@ public class HistoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        //moveTaskToBack(true);
+        Intent intent = new Intent(HistoryActivity.this,
+                HomeActivity.class);
+        startActivity(intent);
+        finish();
 
     }
 

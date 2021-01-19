@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,48 +17,55 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HelpActivity extends AppCompatActivity {
+public class CustomTrafficActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private Button generate;
+    private EditText linkOne,linkTwo,linkThree,linkFour;
     private ImageView back;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.help_activity_layout);
-        Toolbar toolbar = findViewById(R.id.toolbar_help);
+        setContentView(R.layout.custom_traffic_activity_layout);
+        Toolbar toolbar = findViewById(R.id.toolbar_custom_traffic);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        back = toolbar.findViewById(R.id.back);
         TextView title = toolbar.findViewById(R.id.toolbar_title);
-        title.setText("Documentation");
+        title.setText("Custom Traffic");
+        if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
+            startActivity(new Intent(CustomTrafficActivity.this, LoginActivity.class));
+        }
+        back = toolbar.findViewById(R.id.back);
+        generate = findViewById(R.id.generate_btn);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HelpActivity.this,
-                        HomeActivity.class);
+                Intent intent = new Intent(CustomTrafficActivity.this,
+                        SimulationSettingsActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
+        generate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-        if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
-            startActivity(new Intent(HelpActivity.this, LoginActivity.class));
-        }
-
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
-            startActivity(new Intent(HelpActivity.this, LoginActivity.class));
+            startActivity(new Intent(CustomTrafficActivity.this, LoginActivity.class));
         }
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(HelpActivity.this,
-                HomeActivity.class);
+        Intent intent = new Intent(CustomTrafficActivity.this,
+                SimulationSettingsActivity.class);
         startActivity(intent);
         finish();
     }
@@ -73,10 +82,9 @@ public class HelpActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.signout:
                 auth.signOut();
-                startActivity(new Intent(HelpActivity.this, LoginActivity.class));
+                startActivity(new Intent(CustomTrafficActivity.this, LoginActivity.class));
                 finish();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }

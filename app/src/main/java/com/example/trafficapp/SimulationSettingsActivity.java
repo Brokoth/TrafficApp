@@ -15,48 +15,63 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HelpActivity extends AppCompatActivity {
+public class SimulationSettingsActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
-    private ImageView back;
+    private ImageView cust_vids, save, back;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.help_activity_layout);
-        Toolbar toolbar = findViewById(R.id.toolbar_help);
+        setContentView(R.layout.simulation_settings_activity_layout);
+        Toolbar toolbar = findViewById(R.id.toolbar_sim_settings);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        back = toolbar.findViewById(R.id.back);
         TextView title = toolbar.findViewById(R.id.toolbar_title);
-        title.setText("Documentation");
+        title.setText("Simulation Settings");
+        if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
+            startActivity(new Intent(SimulationSettingsActivity.this, LoginActivity.class));
+        }
+        back = toolbar.findViewById(R.id.back);
+        cust_vids = findViewById(R.id.custom_traffic);
+        save = findViewById(R.id.save);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HelpActivity.this,
-                        HomeActivity.class);
+                Intent intent = new Intent(SimulationSettingsActivity.this,
+                        SimulationActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
+        cust_vids.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SimulationSettingsActivity.this,
+                        CustomTrafficActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-        if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
-            startActivity(new Intent(HelpActivity.this, LoginActivity.class));
-        }
-
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
-            startActivity(new Intent(HelpActivity.this, LoginActivity.class));
+            startActivity(new Intent(SimulationSettingsActivity.this, LoginActivity.class));
         }
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(HelpActivity.this,
-                HomeActivity.class);
+        Intent intent = new Intent(SimulationSettingsActivity.this,
+                SimulationActivity.class);
         startActivity(intent);
         finish();
     }
@@ -73,10 +88,9 @@ public class HelpActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.signout:
                 auth.signOut();
-                startActivity(new Intent(HelpActivity.this, LoginActivity.class));
+                startActivity(new Intent(SimulationSettingsActivity.this, LoginActivity.class));
                 finish();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }

@@ -37,7 +37,7 @@ public class SimulationActivity extends AppCompatActivity {
     private Looper controlLooper;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore db;
-    private ImageView back;
+    private ImageView back, sim_settings;
     private Button startsim, stopsim;
     public static Boolean running = false;
     static Spinner junctionspinner = null, densityspinner = null;
@@ -123,6 +123,7 @@ public class SimulationActivity extends AppCompatActivity {
         startsim = findViewById(R.id.run_btn);
         stopsim = findViewById(R.id.stop_btn);
         back = toolbar.findViewById(R.id.back);
+        sim_settings = findViewById(R.id.simulation_settings_btn);
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Simulation");
         back.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +136,15 @@ public class SimulationActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        sim_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SimulationActivity.this,
+                        SimulationSettingsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         junctionspinner = findViewById(R.id.junction_type_spin);
         ArrayAdapter<CharSequence> junctionSpinneradapter = ArrayAdapter.createFromResource(this, R.array.junctionTypes, R.layout.spinner_item);
         junctionSpinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -174,6 +183,7 @@ public class SimulationActivity extends AppCompatActivity {
                 running = true;
                 startsim.setVisibility(View.GONE);
                 stopsim.setVisibility(View.VISIBLE);
+                sim_settings.setVisibility(View.GONE);
                 j_selection_layout.setVisibility(View.GONE);
                 d_selection_layout.setVisibility(View.GONE);
                 runningLabel.setVisibility(View.VISIBLE);
@@ -375,6 +385,7 @@ public class SimulationActivity extends AppCompatActivity {
 //        roundabout_con_light_4.setBackgroundResource(R.drawable.traffic_light_red);
         startsim.setVisibility(View.VISIBLE);
         stopsim.setVisibility(View.GONE);
+        sim_settings.setVisibility(View.VISIBLE);
         j_selection_layout.setVisibility(View.VISIBLE);
         d_selection_layout.setVisibility(View.VISIBLE);
         runningLabel.setVisibility(View.GONE);
