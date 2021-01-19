@@ -33,8 +33,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SimulationActivity extends AppCompatActivity {
-    private Handler mainHandler;
-    private Looper controlLooper;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore db;
     private ImageView back, sim_settings;

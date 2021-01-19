@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText email,inputPassword, confrimPassword;
+    private TextInputEditText email, inputPassword, confrimPassword;
     private Button btnSignUp;
     private ProgressBar progressBar;
     private TextView btnSignIn;
@@ -38,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.register_activity_layout);
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        btnSignIn =  findViewById(R.id.sign_in_button);
+        btnSignIn = findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.register_btn);
         email = (TextInputEditText) findViewById(R.id.reg_email);
         inputPassword = (TextInputEditText) findViewById(R.id.register_password);
@@ -53,7 +55,6 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final String inputEmail = email.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
                 String cpassword = confrimPassword.getText().toString().trim();
@@ -71,7 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 if (password.length() < 6) {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
                     return;
@@ -84,14 +84,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "The entered passwords do not match", Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 progressBar.setVisibility(View.VISIBLE);
                 //create user
                 auth.createUserWithEmailAndPassword(inputEmail, password)
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-
                                 if (!task.isSuccessful()) {
                                     progressBar.setVisibility(View.GONE);
                                     Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
@@ -110,12 +108,25 @@ public class RegisterActivity extends AppCompatActivity {
                                                         db.collection("Users").document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
-                                                                progressBar.setVisibility(View.GONE);
-
-                                                                Toast.makeText(RegisterActivity.this, "Registered Successfully. An email verification link has been sent to your email address",
-                                                                        Toast.LENGTH_LONG).show();
-                                                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                                                finish();
+                                                                db.collection("Users").document(id).collection("Simulation_Settings")
+                                                                        .document("current").update("settingsType", "Default")
+                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void aVoid) {
+                                                                                progressBar.setVisibility(View.GONE);
+                                                                                Toast.makeText(RegisterActivity.this, "Registered Successfully. An email verification link has been sent to your email address",
+                                                                                        Toast.LENGTH_LONG).show();
+                                                                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                                                                finish();
+                                                                            }
+                                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
+                                                                                Toast.LENGTH_SHORT).show();
+                                                                        newuser.delete();
+                                                                    }
+                                                                });
                                                             }
                                                         }).addOnFailureListener(new OnFailureListener() {
                                                             @Override
@@ -126,7 +137,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                                 newuser.delete();
                                                             }
                                                         });
-
                                                     } else {
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
@@ -135,14 +145,13 @@ public class RegisterActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             });
-
-
                                 }
                             }
                         });
             }
         });
     }
+
     @Override
     public void onBackPressed() {
 

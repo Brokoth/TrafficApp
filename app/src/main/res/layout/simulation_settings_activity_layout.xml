@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/teal_700"
     android:orientation="vertical">
 
@@ -9,9 +10,9 @@
         android:id="@+id/toolbar_sim_settings"
         layout="@layout/toolbar_with_back" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fadeScrollbars="false"
         android:scrollbarSize="5dp"
         android:scrollbarThumbVertical="@android:color/white">
@@ -47,7 +48,6 @@
                 android:background="@color/white" />
 
             <LinearLayout
-                android:id="@+id/junction_selection_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="gone">
+                >
 
                 <View
                     android:layout_width="match_parent"
@@ -96,9 +96,12 @@
 
                 <EditText
                     android:id="@+id/orange_time"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edittext_bg"
                     android:hint="Time in Seconds"
+                    android:inputType="number"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textColorHint="@color/HintText"
                     android:textSize="20dp" />
@@ -118,9 +121,12 @@
 
                 <EditText
                     android:id="@+id/red_time"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edittext_bg"
                     android:hint="Time in Seconds"
+                    android:inputType="number"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textColorHint="@color/HintText"
                     android:textSize="20dp" />
@@ -140,9 +146,12 @@
 
                 <EditText
                     android:id="@+id/green_time"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edittext_bg"
                     android:hint="Time in Seconds"
+                    android:inputType="number"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textColorHint="@color/HintText"
                     android:textSize="20dp" />
@@ -162,9 +171,12 @@
 
                 <EditText
                     android:id="@+id/clear_time"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edittext_bg"
                     android:hint="Time in Seconds"
+                    android:inputType="number"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textColorHint="@color/HintText"
                     android:textSize="20dp" />
@@ -184,24 +196,37 @@
 
                 <EditText
                     android:id="@+id/addition_time"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edittext_bg"
                     android:hint="Time in Seconds"
+                    android:inputType="number"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textColorHint="@color/HintText"
-                    android:textSize="20dp" />
-            </LinearLayout>
+                    android:textSize="20dp"
+                    android:layout_marginBottom="30dp"
+                    />
         </LinearLayout>
-    </ScrollView>
-    <ImageView
-        android:id="@+id/save"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/white_circle_bg"
-        android:src="@drawable/ic_baseline_save_24"/>
-</RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:backgroundTint="@color/teal_200"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_baseline_save_24" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/save"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginHorizontal="20dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:background="@drawable/white_circle_bg"-->
+<!--        android:src="@drawable/ic_baseline_save_24" />-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
