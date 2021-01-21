@@ -197,7 +197,6 @@ public class SimulationActivity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
 
                                 if (junctionspinner.getSelectedItem().toString().equals("T junction")) {
-
                                     conLane1AddThread = new t_con_lane_1_add_thread(5, densityspinner.getSelectedItem().toString());
                                     conLane1AddThread.start();
                                     conLane1SubThread = new t_con_lane_1_sub_thread(1);

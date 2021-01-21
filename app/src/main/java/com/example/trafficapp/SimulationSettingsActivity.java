@@ -63,7 +63,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
             startActivity(new Intent(SimulationSettingsActivity.this, LoginActivity.class));
         } else {
             db.collection("Users").document(uid).collection("Simulation_Settings")
-                    .document("current").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    .document("timings").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.getString("settingsType").equals("Custom")) {
@@ -97,7 +97,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                 } else {
                     custom_timing.setVisibility(View.VISIBLE);
                     db.collection("Users").document(uid).collection("Simulation_Settings")
-                            .document("current").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            .document("timings").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
 
@@ -145,7 +145,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (timingspinner.getSelectedItem().toString().equals("Default")) {
                     db.collection("Users").document(uid).collection("Simulation_Settings")
-                            .document("current").update("settingsType", "Default")
+                            .document("timings").update("settingsType", "Default")
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -181,7 +181,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                 } else {
 //POJO_simulation_settings settings = new POJO_simulation_settings();
                     db.collection("Users").document(uid).collection("Simulation_Settings")
-                            .document("current").update("redTime", red_value.getText().toString(), "greenTime", green_value.getText().toString(), "orangeTime", orange_value.getText().toString(), "additionTime", addition_time.getText().toString(), "subtractionTime", subtraction_time.getText().toString(), "settingsType", "Custom")
+                            .document("timings").update("redTime", red_value.getText().toString(), "greenTime", green_value.getText().toString(), "orangeTime", orange_value.getText().toString(), "additionTime", addition_time.getText().toString(), "subtractionTime", subtraction_time.getText().toString(), "settingsType", "Custom")
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

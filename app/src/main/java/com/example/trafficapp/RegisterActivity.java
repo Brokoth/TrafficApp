@@ -109,15 +109,29 @@ public class RegisterActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
                                                                 db.collection("Users").document(id).collection("Simulation_Settings")
-                                                                        .document("current").update("settingsType", "Default")
+                                                                        .document("timings").update("settingsType", "Default")
                                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                             @Override
                                                                             public void onSuccess(Void aVoid) {
-                                                                                progressBar.setVisibility(View.GONE);
-                                                                                Toast.makeText(RegisterActivity.this, "Registered Successfully. An email verification link has been sent to your email address",
-                                                                                        Toast.LENGTH_LONG).show();
-                                                                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                                                                finish();
+                                                                                db.collection("Users").document(id).collection("Simulation_Settings")
+                                                                                        .document("links").update("link_one", "","link_two", "","link_three", "","link_four", "")
+                                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                            @Override
+                                                                                            public void onSuccess(Void aVoid) {
+                                                                                                progressBar.setVisibility(View.GONE);
+                                                                                                Toast.makeText(RegisterActivity.this, "Registered Successfully. An email verification link has been sent to your email address",
+                                                                                                        Toast.LENGTH_LONG).show();
+                                                                                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                                                                                finish();
+                                                                                            }
+                                                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                                                    @Override
+                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                        Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
+                                                                                                Toast.LENGTH_SHORT).show();
+                                                                                        newuser.delete();
+                                                                                    }
+                                                                                });
                                                                             }
                                                                         }).addOnFailureListener(new OnFailureListener() {
                                                                     @Override
