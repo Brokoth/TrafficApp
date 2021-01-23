@@ -10,15 +10,15 @@ android {
 
     defaultConfig {
         applicationId "Brian.Okoth.trafficapp"
-        minSdkVersion 18
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        sourceSets{
-            main{
-                python{
+        sourceSets {
+            main {
+                python {
                     srcDirs = ["src/main/python"]
                 }
             }
@@ -26,10 +26,21 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        python{
+        python {
             pip {
                 install "sklearn"
                 install "pandas"
+                install "opencv-python"
+                install "pafy==0.5.5"
+                install "requests"
+                install "youtube_dl==2021.1.16"
+                install "pytube==10.4.1"
+                install "imageio"
+                install "imageio-ffmpeg"
+                install "numpy"
+                install "ffmpeg"
+                install "ffmpeg-python"
+                install "moviepy"
 
             }
             buildPython "C:/Users/Brokoth/AppData/Local/Programs/Python/Python38-32/python.exe"
@@ -49,16 +60,21 @@ android {
 }
 
 dependencies {
-
+    implementation 'com.arthenica:mobile-ffmpeg-full:4.4'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.google.firebase:firebase-firestore:21.4.0'
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.google.firebase:firebase-storage:19.1.1'
-    implementation 'com.google.firebase:firebase-functions:19.0.2'
+    implementation 'com.google.firebase:firebase-firestore:22.0.1'
+    implementation 'com.google.firebase:firebase-auth:20.0.2'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
+    implementation 'com.google.firebase:firebase-functions:19.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
+    implementation project(path: ':openCVLibrary343')
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'commons-io:commons-io:20030203.000550'
+    implementation group: 'commons-io', name: 'commons-io', version: '20030203.000550'
+    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.8'
 }

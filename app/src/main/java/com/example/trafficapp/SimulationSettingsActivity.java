@@ -15,17 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.arthenica.mobileffmpeg.Config;
+import com.arthenica.mobileffmpeg.FFmpeg;
 
 public class SimulationSettingsActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -34,7 +34,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private LinearLayout custom_timing;
     private EditText red_value, orange_value, green_value, subtraction_time, addition_time;
-    static Spinner timingspinner = null;
+    private Spinner timingspinner = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -29,7 +29,7 @@ public class CustomTrafficActivity extends AppCompatActivity {
     private EditText linkOne, linkTwo, linkThree, linkFour, frameValue;
     private ImageView back;
     private FirebaseFirestore db;
-    private car_detection_thread carDetectionThread;
+    private video_saving_and_car_detection_thread videoSavingAndCarDetectionThread;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,9 +107,9 @@ public class CustomTrafficActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    carDetectionThread = new car_detection_thread(frameValue.getText().toString(), linkOne.getText().toString(), linkTwo.getText().toString(), linkThree.getText().toString(), linkFour.getText().toString(), CustomTrafficActivity.this);
-                                    carDetectionThread.start();
-                                    Toast.makeText(CustomTrafficActivity.this, "Links Updated Successfully", Toast.LENGTH_SHORT).show();
+                                    videoSavingAndCarDetectionThread = new video_saving_and_car_detection_thread(frameValue.getText().toString(), linkOne.getText().toString(), linkTwo.getText().toString(), linkThree.getText().toString(), linkFour.getText().toString(), CustomTrafficActivity.this, CustomTrafficActivity.this.getFilesDir().toString());
+                                    videoSavingAndCarDetectionThread.start();
+                                    Toast.makeText(CustomTrafficActivity.this, "Links Updated Successfully.", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
