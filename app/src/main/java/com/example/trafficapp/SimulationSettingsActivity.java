@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,10 +32,9 @@ public class SimulationSettingsActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private ImageView cust_vids, back;
     private FloatingActionButton save;
+    private Button defaults;
     private FirebaseFirestore db;
-    private LinearLayout custom_timing;
     private EditText red_value, orange_value, green_value, subtraction_time, addition_time;
-    private Spinner timingspinner = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +51,9 @@ public class SimulationSettingsActivity extends AppCompatActivity {
         green_value = findViewById(R.id.green_time);
         subtraction_time = findViewById(R.id.clear_time);
         addition_time = findViewById(R.id.addition_time);
-        custom_timing = findViewById(R.id.custom_timing_layout);
         cust_vids = findViewById(R.id.custom_traffic);
         save = findViewById(R.id.save_btn);
-        timingspinner = findViewById(R.id.timing_type_spin);
-        ArrayAdapter<CharSequence> timingSpinneradapter = ArrayAdapter.createFromResource(this, R.array.timingTypes, R.layout.spinner_item);
-        timingSpinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timingspinner.setAdapter(timingSpinneradapter);
+        defaults = findViewById(R.id.defaults_btn);
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
             startActivity(new Intent(SimulationSettingsActivity.this, LoginActivity.class));
@@ -66,18 +62,12 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                     .document("timings").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.getString("settingsType").equals("Custom")) {
-                        timingspinner.setSelection(1);
-                        custom_timing.setVisibility(View.VISIBLE);
                         red_value.setText(documentSnapshot.getString("redTime"));
                         green_value.setText(documentSnapshot.getString("greenTime"));
                         orange_value.setText(documentSnapshot.getString("orangeTime"));
                         subtraction_time.setText(documentSnapshot.getString("subtractionTime"));
                         addition_time.setText(documentSnapshot.getString("additionTime"));
-                    } else {
-                        timingspinner.setSelection(0);
-                        custom_timing.setVisibility(View.GONE);
-                    }
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -86,39 +76,14 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                 }
             });
         }
-        timingspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        defaults.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
-                if ("Default".equals(timingspinner.getSelectedItem().toString())) {
-                    custom_timing.setVisibility(View.GONE);
-
-                } else {
-                    custom_timing.setVisibility(View.VISIBLE);
-                    db.collection("Users").document(uid).collection("Simulation_Settings")
-                            .document("timings").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                                red_value.setText(documentSnapshot.getString("redTime"));
-                                green_value.setText(documentSnapshot.getString("greenTime"));
-                                orange_value.setText(documentSnapshot.getString("orangeTime"));
-                                subtraction_time.setText(documentSnapshot.getString("subtractionTime"));
-                                addition_time.setText(documentSnapshot.getString("additionTime"));
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                        red_value.setText("10");
+                        green_value.setText("10");
+                        orange_value.setText("3");
+                        subtraction_time.setText("1");
+                        addition_time.setText("5");
             }
         });
 
@@ -143,21 +108,6 @@ public class SimulationSettingsActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timingspinner.getSelectedItem().toString().equals("Default")) {
-                    db.collection("Users").document(uid).collection("Simulation_Settings")
-                            .document("timings").update("settingsType", "Default")
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(SimulationSettingsActivity.this, "Settings Updated Successfully", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(SimulationSettingsActivity.this, "Failed to Update. Try Again Later", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
                 if (TextUtils.isEmpty(red_value.getText().toString())) {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the duration time for red light", Toast.LENGTH_SHORT).show();
                     // progressBar.setVisibility(View.GONE);
@@ -179,9 +129,8 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                     // progressBar.setVisibility(View.GONE);
                     return;
                 } else {
-//POJO_simulation_settings settings = new POJO_simulation_settings();
                     db.collection("Users").document(uid).collection("Simulation_Settings")
-                            .document("timings").update("redTime", red_value.getText().toString(), "greenTime", green_value.getText().toString(), "orangeTime", orange_value.getText().toString(), "additionTime", addition_time.getText().toString(), "subtractionTime", subtraction_time.getText().toString(), "settingsType", "Custom")
+                            .document("timings").update("redTime", red_value.getText().toString(), "greenTime", green_value.getText().toString(), "orangeTime", orange_value.getText().toString(), "additionTime", addition_time.getText().toString(), "subtractionTime", subtraction_time.getText().toString())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -194,7 +143,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }
+
             }
         });
     }

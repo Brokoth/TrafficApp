@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/teal_700"
 >
-
     <include
         android:id="@+id/toolbar_custom_traffic"
         layout="@layout/toolbar_with_back" />
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -129,6 +129,13 @@
                 android:layout_margin="20dp"
                 android:background="@color/white" />
 
+            <ProgressBar
+                android:id="@+id/generate_btn_progress_bar"
+                android:layout_width="50dp"
+                android:visibility="gone"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:indeterminateTint="@color/white"/>
             <Button
                 android:id="@+id/generate_btn"
                 android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class CustomTrafficActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private Button generate;
+    private ProgressBar generate_progress_bar;
     private EditText linkOne, linkTwo, linkThree, linkFour, frameValue;
     private ImageView back;
     private FirebaseFirestore db;
@@ -42,6 +44,7 @@ public class CustomTrafficActivity extends AppCompatActivity {
         title.setText("Custom Traffic");
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         linkOne = findViewById(R.id.link1);
+        generate_progress_bar = findViewById(R.id.generate_btn_progress_bar);
         linkTwo = findViewById(R.id.link2);
         frameValue = findViewById(R.id.frame_difference);
         linkThree = findViewById(R.id.link3);
@@ -81,25 +84,32 @@ public class CustomTrafficActivity extends AppCompatActivity {
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                generate.setVisibility(View.GONE);
+                generate_progress_bar.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(linkOne.getText().toString())) {
                     Toast.makeText(CustomTrafficActivity.this, "Set the lane one link", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
                     return;
                 } else if (TextUtils.isEmpty(linkTwo.getText().toString())) {
                     Toast.makeText(CustomTrafficActivity.this, "Set the lane two link", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
                     return;
                 } else if (TextUtils.isEmpty(linkThree.getText().toString())) {
                     Toast.makeText(CustomTrafficActivity.this, "Set the lane three link", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
                     return;
                 } else if (TextUtils.isEmpty(linkFour.getText().toString())) {
                     Toast.makeText(CustomTrafficActivity.this, "Set the lane four link", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
                     return;
                 } else if (TextUtils.isEmpty(frameValue.getText().toString())) {
                     Toast.makeText(CustomTrafficActivity.this, "Set the frame interval", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
                     return;
                 } else {
                     db.collection("Users").document(uid).collection("Simulation_Settings")
@@ -107,14 +117,16 @@ public class CustomTrafficActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    videoSavingAndCarDetectionThread = new video_saving_and_car_detection_thread(frameValue.getText().toString(), linkOne.getText().toString(), linkTwo.getText().toString(), linkThree.getText().toString(), linkFour.getText().toString(), CustomTrafficActivity.this, CustomTrafficActivity.this.getFilesDir().toString());
+                                    videoSavingAndCarDetectionThread = new video_saving_and_car_detection_thread(generate,generate_progress_bar,frameValue.getText().toString(), linkOne.getText().toString(), linkTwo.getText().toString(), linkThree.getText().toString(), linkFour.getText().toString(), CustomTrafficActivity.this, CustomTrafficActivity.this.getFilesDir().toString());
                                     videoSavingAndCarDetectionThread.start();
-                                    Toast.makeText(CustomTrafficActivity.this, "Links Updated Successfully.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CustomTrafficActivity.this, "GENERATING....", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CustomTrafficActivity.this, "Failed to Update. Try Again Later", Toast.LENGTH_SHORT).show();
+                            generate.setVisibility(View.VISIBLE);
+                            generate_progress_bar.setVisibility(View.GONE);
+                            Toast.makeText(CustomTrafficActivity.this, "Failed to generate values. Try Again Later", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

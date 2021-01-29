@@ -96,69 +96,88 @@ public class RegisterActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     final FirebaseUser newuser = auth.getCurrentUser();
-                                    newuser.sendEmailVerification()
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                    status = "user";
+                                    POJO_user user = new POJO_user(status, inputEmail, id);
+                                    POJO_simulation_settings simulationSettings = new POJO_simulation_settings("10", "10", "3", "5", "1");
+                                    POJO_links links = new POJO_links("", "", "", "","");
+                                    POJO_link_values link_values = new POJO_link_values("", "", "", "");
+                                    db.collection("Users").document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            db.collection("Users").document(id).collection("Simulation_Settings")
+                                                    .document("timings").set(simulationSettings)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            db.collection("Users").document(id).collection("Simulation_Settings")
+                                                                    .document("links").set(links)
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            db.collection("Users").document(id).collection("Simulation_Settings")
+                                                                                    .document("link_values").set(link_values)
+                                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                        @Override
+                                                                                        public void onSuccess(Void aVoid) {
+
+                                                                                            newuser.sendEmailVerification()
+                                                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                        @Override
+                                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                                            if (task.isSuccessful()) {
+                                                                                                                progressBar.setVisibility(View.GONE);
+                                                                                                                Toast.makeText(RegisterActivity.this, "Registered Successfully. An email verification link has been sent to your email address",
+                                                                                                                        Toast.LENGTH_LONG).show();
+                                                                                                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                                                                                                finish();
+                                                                                                            } else {
+                                                                                                                progressBar.setVisibility(View.GONE);
+                                                                                                                Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
+                                                                                                                        Toast.LENGTH_SHORT).show();
+                                                                                                                newuser.delete();
+                                                                                                            }
+                                                                                                        }
+                                                                                                    });
+                                                                                        }
+                                                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                                                @Override
+                                                                                public void onFailure(@NonNull Exception e) {
+                                                                                    Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
+                                                                                            Toast.LENGTH_SHORT).show();
+                                                                                    newuser.delete();
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
+                                                                            Toast.LENGTH_SHORT).show();
+                                                                    newuser.delete();
+                                                                }
+                                                            });
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Log.d("reg_page", "Email sent.");
-                                                        id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                                        status = "user";
-                                                        POJO_user user = new POJO_user(status, inputEmail, id);
-                                                        db.collection("Users").document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                db.collection("Users").document(id).collection("Simulation_Settings")
-                                                                        .document("timings").update("settingsType", "Default")
-                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                            @Override
-                                                                            public void onSuccess(Void aVoid) {
-                                                                                db.collection("Users").document(id).collection("Simulation_Settings")
-                                                                                        .document("links").update("link_one", "","link_two", "","link_three", "","link_four", "")
-                                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                            @Override
-                                                                                            public void onSuccess(Void aVoid) {
-                                                                                                progressBar.setVisibility(View.GONE);
-                                                                                                Toast.makeText(RegisterActivity.this, "Registered Successfully. An email verification link has been sent to your email address",
-                                                                                                        Toast.LENGTH_LONG).show();
-                                                                                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                                                                                finish();
-                                                                                            }
-                                                                                        }).addOnFailureListener(new OnFailureListener() {
-                                                                                    @Override
-                                                                                    public void onFailure(@NonNull Exception e) {
-                                                                                        Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
-                                                                                                Toast.LENGTH_SHORT).show();
-                                                                                        newuser.delete();
-                                                                                    }
-                                                                                });
-                                                                            }
-                                                                        }).addOnFailureListener(new OnFailureListener() {
-                                                                    @Override
-                                                                    public void onFailure(@NonNull Exception e) {
-                                                                        Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
-                                                                                Toast.LENGTH_SHORT).show();
-                                                                        newuser.delete();
-                                                                    }
-                                                                });
-                                                            }
-                                                        }).addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                progressBar.setVisibility(View.GONE);
-                                                                Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
-                                                                        Toast.LENGTH_SHORT).show();
-                                                                newuser.delete();
-                                                            }
-                                                        });
-                                                    } else {
-                                                        progressBar.setVisibility(View.GONE);
-                                                        Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
-                                                                Toast.LENGTH_SHORT).show();
-                                                        newuser.delete();
-                                                    }
+                                                public void onFailure(@NonNull Exception e) {
+                                                    progressBar.setVisibility(View.GONE);
+                                                    Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    newuser.delete();
                                                 }
                                             });
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
+                                                    Toast.LENGTH_SHORT).show();
+                                            newuser.delete();
+                                        }
+                                    });
                                 }
                             }
                         });

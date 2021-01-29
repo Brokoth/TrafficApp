@@ -6,19 +6,18 @@ public class POJO_simulation_settings {
     public String orangeTime;
     public String additionTime;
     public String subtractionTime;
-    public String settingsType;
+
 
     public POJO_simulation_settings(){
 
     }
 
-    public POJO_simulation_settings(String redTime, String greenTime, String orangeTime, String additionTime, String subtractionTime, String settingsType) {
+    public POJO_simulation_settings(String redTime, String greenTime, String orangeTime, String additionTime, String subtractionTime) {
         this.redTime = redTime;
         this.greenTime = greenTime;
         this.orangeTime = orangeTime;
         this.additionTime = additionTime;
         this.subtractionTime = subtractionTime;
-        this.settingsType = settingsType;
     }
 
     public String getRedTime() {
@@ -61,11 +60,4 @@ public class POJO_simulation_settings {
         this.subtractionTime = subtractionTime;
     }
 
-    public String getSettingsType() {
-        return settingsType;
-    }
-
-    public void setSettingsType(String settingsType) {
-        this.settingsType = settingsType;
-    }
 }
