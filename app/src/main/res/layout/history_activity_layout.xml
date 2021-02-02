@@ -9,6 +9,17 @@
     <include
         android:id="@+id/toolbar_his"
         layout="@layout/toolbar_with_back" />
-
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Swipe to delete a simulation."
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="20sp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/history_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        android:scrollbars="vertical" />
 </LinearLayout>

@@ -14,6 +14,13 @@ public class POJO_simulation {
     public String link_three;
     public String link_four;
     public String frame_interval;
+    public String start_time;
+    public String end_time;
+    public String timemilli;
+    public String ai_efficiency;
+    public String control_efficiency;
+    public String ai_density_change_rate_coords;
+    public String con_density_change_rate_coords;
 
     public POJO_simulation() {
     }
@@ -122,7 +129,63 @@ public class POJO_simulation {
         this.frame_interval = frame_interval;
     }
 
-    public POJO_simulation(String userID, String junctionType, String densityType, String additionTime, String greenTime, String orangeTime, String redTime, String subtractionTime, String link_one, String link_two, String link_three, String link_four, String frame_interval) {
+    public String getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
+    }
+
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
+    }
+
+    public String getTimemilli() {
+        return timemilli;
+    }
+
+    public void setTimemilli(String timemilli) {
+        this.timemilli = timemilli;
+    }
+
+    public String getAi_efficiency() {
+        return ai_efficiency;
+    }
+
+    public void setAi_efficiency(String ai_efficiency) {
+        this.ai_efficiency = ai_efficiency;
+    }
+
+    public String getControl_efficiency() {
+        return control_efficiency;
+    }
+
+    public void setControl_efficiency(String control_efficiency) {
+        this.control_efficiency = control_efficiency;
+    }
+
+    public String getAi_density_change_rate_coords() {
+        return ai_density_change_rate_coords;
+    }
+
+    public void setAi_density_change_rate_coords(String ai_density_change_rate_coords) {
+        this.ai_density_change_rate_coords = ai_density_change_rate_coords;
+    }
+
+    public String getCon_density_change_rate_coords() {
+        return con_density_change_rate_coords;
+    }
+
+    public void setCon_density_change_rate_coords(String con_density_change_rate_coords) {
+        this.con_density_change_rate_coords = con_density_change_rate_coords;
+    }
+
+    public POJO_simulation(String userID, String junctionType, String densityType, String redTime, String greenTime, String orangeTime, String additionTime, String subtractionTime, String link_one, String link_two, String link_three, String link_four, String frame_interval, String start_time, String end_time, String timemilli, String ai_efficiency, String control_efficiency, String ai_density_change_rate_coords, String con_density_change_rate_coords) {
         this.userID = userID;
         this.junctionType = junctionType;
         this.densityType = densityType;
@@ -136,5 +199,12 @@ public class POJO_simulation {
         this.link_three = link_three;
         this.link_four = link_four;
         this.frame_interval = frame_interval;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.timemilli = timemilli;
+        this.ai_efficiency = ai_efficiency;
+        this.control_efficiency = control_efficiency;
+        this.ai_density_change_rate_coords = ai_density_change_rate_coords;
+        this.con_density_change_rate_coords = con_density_change_rate_coords;
     }
 }

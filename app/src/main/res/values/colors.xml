@@ -10,5 +10,6 @@
     <color name="HintText">#808080</color>
     <color name="red">#FF0000</color>
     <color name="green"> #00ff48</color>
+    <color name="dark_green"> #0b6103</color>
 
 </resources>

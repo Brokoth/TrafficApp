@@ -12,12 +12,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class HistoryActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private ImageView back;
+    private HistoryAdapter adapter;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private CollectionReference Cref = db.collection("Users");
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +53,45 @@ public class HistoryActivity extends AppCompatActivity {
         if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
             startActivity(new Intent(HistoryActivity.this, LoginActivity.class));
         }
+        setUpRecyclerView();
+        adapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(DocumentSnapshot documentSnapshot, int position) {
+                final String SimulationId = documentSnapshot.getId();
+                Intent intent = new Intent(HistoryActivity.this,
+                        SimulationStatsActivity.class);
+                intent.putExtra("SimulationID", SimulationId);
+                startActivity(intent);
+            }
+        });
+    }
 
+    private void setUpRecyclerView()
+    {
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Query query = Cref.document(id).collection("Simulations").orderBy("timemilli", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<POJO_simulation> options = new
+                FirestoreRecyclerOptions.Builder<POJO_simulation>()
+                .setQuery(query, POJO_simulation.class).
+                        build();
+
+        adapter = new HistoryAdapter(options);
+        RecyclerView recyclerView = findViewById(R.id.history_recycler);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.deleteSimulation(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -50,6 +100,19 @@ public class HistoryActivity extends AppCompatActivity {
         if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
             startActivity(new Intent(HistoryActivity.this, LoginActivity.class));
         }
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        adapter.stopListening();
     }
 
     @Override
