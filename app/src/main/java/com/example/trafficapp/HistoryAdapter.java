@@ -44,8 +44,8 @@ public class HistoryAdapter extends FirestoreRecyclerAdapter<POJO_simulation, Hi
         yourHistoryHolder.density.setText(pojoSimulationCustom.getDensityType());
         yourHistoryHolder.time_value.setText(time_str_array[0]);
         if (!pojoSimulationCustom.getAi_efficiency().equals("") && !pojoSimulationCustom.getControl_efficiency().equals("")) {
-        yourHistoryHolder.efficiency.setText(pojoSimulationCustom.getAi_efficiency());
-        if (Integer.parseInt(pojoSimulationCustom.getAi_efficiency()) > Integer.parseInt(pojoSimulationCustom.getControl_efficiency())) {
+        yourHistoryHolder.efficiency.setText(pojoSimulationCustom.getAi_efficiency()+"%");
+        if (Float.parseFloat(pojoSimulationCustom.getAi_efficiency()) > Float.parseFloat(pojoSimulationCustom.getControl_efficiency())) {
             yourHistoryHolder.efficiency.setTextColor(Color.parseColor("#0b6103"));
         } else {
             yourHistoryHolder.efficiency.setTextColor(Color.parseColor("#FF0000"));
