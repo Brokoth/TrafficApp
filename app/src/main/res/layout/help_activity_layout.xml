@@ -11,6 +11,7 @@
         layout="@layout/toolbar_with_back" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fadeScrollbars="false"
@@ -28,7 +29,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Below are the documenation sections"
+                android:text="Below are the documentation sections"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -90,9 +91,9 @@
                 android:background="@color/white" />
 
             <LinearLayout
-                android:id="@+id/simulation_documentation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginVertical="5dp"
                 android:background="@color/white"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
@@ -106,47 +107,68 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/simulation_documentation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
+                    android:enabled="false"
+                    android:focusable="true"
+                    android:inputType="none"
                     android:paddingHorizontal="10dp"
                     android:text="@string/alg_exp1"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/callibration_documentation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/teal_200" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Set the duration time for orange light"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                    android:text="How to Calibrate the Simulations"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/history_documentation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/callibration_documentation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:paddingHorizontal="10dp"
+                    android:text="@string/calibrations_exp1"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/teal_200" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Set the duration time for orange light"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                    android:text="Understanding the Simulation Stats"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/history_documentation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:paddingHorizontal="10dp"
+                    android:text="@string/stats_exp1"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

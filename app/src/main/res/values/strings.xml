@@ -2,27 +2,74 @@
     <string name="app_name">Traffic App</string>
     <string name="Simulation_algorithms"><u><b><i>Simulation algorithms</i></b></u></string>
     <string name="Simulation_Calibrations"><u><b><i>Simulation Calibrations</i></b></u></string>
-    <string name="Simulation_History"><u><b><i>Simulation History</i></b></u></string>
+    <string name="Simulation_History"><u><b><i>Simulation History and Stats</i></b></u></string>
     <string name="alg_exp1">
-        \tIn this section we will discuss the logic behind the application\'s main
-    functionality displayed in the simulation page.\n
-    \tWhen you click the \'run simulation\' button, a number of background processes are
+        \tIn this section, we will discuss the logic behind the application\'s main
+    functionality displayed in the <b>simulation</b> page.\n
+    \tWhen you click the <b>run simulation</b> button, a number of background processes are
         simultaneously started:\n
         <b>-</b> The <b>lane_add_threads</b> and the
     <b>lane_sub_threads</b> that periodically add and subtract traffic density
         to the lanes at the rate of one density point per second at the intervals
-    defined by the user in the simulation settings page.\n
+    defined by the user in the <b>simulation settings</b> page.\n
         <b>-</b> The <b>control_traffic_light_thread</b> that periodically sets a specific
         light in the control diagram to orange, green then red in a predefined order at intervals defined by the
-        user in the simulation settings page.\n
+        user in the <b>simulation settings</b> page.\n
         <b>-</b> The <b>ai_traffic_light_thread</b> that periodically sets a specific
         light in the adaptable diagram to orange, green then red in a order that is
-        decided by the AI algorithm. The algorithm used is the Random Forest Algorithm.
-        The AI model is fed a set of density values from all the lanes in the junction
+        decided by the A.I algorithm. The algorithm used is the Random Forest Algorithm.
+        The A.I model is fed a set of density values from all the lanes in the junction
         during the simulation at short intervals. The algorithm then predicts which light
-        to turn red/green based on the input. The AI predictions are further processed
+        to turn red/green based on the input. The A.I predictions are further processed
         based on some extra parameters such as how long a light has gone without being green.\n
-        
+        <b>-</b> The <b>junction_efficiency_threads</b> that periodically capture the
+        average traffic density of a junction and creates an array pair with the timestamp
+        of when the capture occurred. Additionally, the average of all averages of density captures
+        is calculated when the simulation ends. This values are captured for both the control and the
+        adaptable version at the same time. The average of all averages is then used to compute the
+        efficiency rating of the adaptable traffic coordination which is seen as a percentage
+        in either green(more efficient than control) or red(less efficient than control) in the <b>history</b> page.\n
+    </string>
+    <string name="calibrations_exp1">
+        \tIn this section, we will discuss the different simulation settings one can alter
+        in the <b>simulation</b> page, <b>simulation settings</b> page and the <b>custom traffic</b> page.\n
+        <b>- Light duration times: </b> These settings set the duration in which a certain colour will be displayed.
+        Apart from the orange light time which applies for both the control and the A.I simulation variants,
+        these settings are only for the control simulation.\n
+        <b>- Density increase and decrease times: </b> These settings set the interval between traffic density
+        changes for all lanes and for both the control and A.I simulation variants.\n
+        <b>- Custom traffic (YouTube links): </b> These settings initiate a <b>video_saving_and_car_detection</b> thread that
+        downloads the traffic footage from YouTube to the devices internal storage and extracts frames from the footage
+        at a rate defined in the frame interval setting. A car detection algorithm using
+        cascades classifier is run on these frames and the car count is then saved in the
+        users settings and retrieved when the <b>custom</b> setting in the <b>traffic density</b> dropdown,
+        in the <b>simulations</b> page, is chosen. The frames are deleted after the density values
+        are gotten from them\n
+        <b>- Frames extracted per second: </b> This setting determine the number of frames
+        extracted from the footage per second.\n
+        <b>- Junction type: </b> This setting determines the junction type used in the
+        simulation.\n
+        <b>- Traffic Density type: </b> This setting determines the traffic density type used in the
+        simulation.\n
+    </string>
+    <string name="stats_exp1">
+        \tIn this section, we will discuss how to interpret the information displayed
+        in the <b>history</b> page and the <b>simulation stats</b> page.\n\n
+        <u><b>History Page </b></u> \n
+        \tin this page, we can see the list of all of a user\'s past simulations ordered by
+        date of occurrence. The individual list elements have the junction type in white
+        text, the density type in grey below the junction type, the efficiency rating
+        of the adaptable simulation variant in red(if the A.I was less efficient
+        than the control) or green(if the A.I was more efficient
+        than the control) and finally the time the simulation was run below the
+        efficiency rating.\n
+        One can simply delete a simulation by swiping it off the screen.\n\n
+        <u><b>Simulation Stats Page </b></u> \n
+        \tin this page, we can see the a graphical representation of a simulation\'s
+        performance and below that, all the settings with which the simulation was run.\n
+        \tThe graph has the average density of the junction on the y axis and the timestamp
+        at which the density was captured on the x axis. The graph plots the points for the
+        A.I and the control variants on the same canvas for comparison.
     </string>
     <string-array name="junctionTypes">
         <item>T junction</item>

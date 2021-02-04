@@ -84,6 +84,7 @@ public class CustomTrafficActivity extends AppCompatActivity {
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String pattern = "^(http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+";
                 generate.setVisibility(View.GONE);
                 generate_progress_bar.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(linkOne.getText().toString())) {
@@ -111,13 +112,37 @@ public class CustomTrafficActivity extends AppCompatActivity {
                     generate.setVisibility(View.VISIBLE);
                     generate_progress_bar.setVisibility(View.GONE);
                     return;
+                } else if (!linkOne.getText().toString().matches(pattern)) {
+                    Toast.makeText(CustomTrafficActivity.this, "Link one is invalid", Toast.LENGTH_SHORT).show();
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
+                    return;
+
+                } else if (!linkTwo.getText().toString().matches(pattern)) {
+                    Toast.makeText(CustomTrafficActivity.this, "Link one is invalid", Toast.LENGTH_SHORT).show();
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
+                    return;
+
+                } else if (!linkThree.getText().toString().matches(pattern)) {
+                    Toast.makeText(CustomTrafficActivity.this, "Link one is invalid", Toast.LENGTH_SHORT).show();
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
+                    return;
+
+                } else if (!linkFour.getText().toString().matches(pattern)) {
+                    Toast.makeText(CustomTrafficActivity.this, "Link one is invalid", Toast.LENGTH_SHORT).show();
+                    generate.setVisibility(View.VISIBLE);
+                    generate_progress_bar.setVisibility(View.GONE);
+                    return;
+
                 } else {
                     db.collection("Users").document(uid).collection("Simulation_Settings")
                             .document("links").update("link_one", linkOne.getText().toString(), "link_two", linkTwo.getText().toString(), "link_three", linkThree.getText().toString(), "link_four", linkFour.getText().toString(), "frame_interval", frameValue.getText().toString())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    videoSavingAndCarDetectionThread = new video_saving_and_car_detection_thread(generate,generate_progress_bar,frameValue.getText().toString(), linkOne.getText().toString(), linkTwo.getText().toString(), linkThree.getText().toString(), linkFour.getText().toString(), CustomTrafficActivity.this, CustomTrafficActivity.this.getFilesDir().toString());
+                                    videoSavingAndCarDetectionThread = new video_saving_and_car_detection_thread(generate, generate_progress_bar, frameValue.getText().toString(), linkOne.getText().toString(), linkTwo.getText().toString(), linkThree.getText().toString(), linkFour.getText().toString(), CustomTrafficActivity.this, CustomTrafficActivity.this.getFilesDir().toString());
                                     videoSavingAndCarDetectionThread.start();
                                     Toast.makeText(CustomTrafficActivity.this, "GENERATING....", Toast.LENGTH_SHORT).show();
                                 }
