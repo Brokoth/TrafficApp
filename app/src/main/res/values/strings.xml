@@ -1,5 +1,29 @@
 <resources>
     <string name="app_name">Traffic App</string>
+    <string name="Simulation_algorithms"><u><b><i>Simulation algorithms</i></b></u></string>
+    <string name="Simulation_Calibrations"><u><b><i>Simulation Calibrations</i></b></u></string>
+    <string name="Simulation_History"><u><b><i>Simulation History</i></b></u></string>
+    <string name="alg_exp1">
+        \tIn this section we will discuss the logic behind the application\'s main
+    functionality displayed in the simulation page.\n
+    \tWhen you click the \'run simulation\' button, a number of background processes are
+        simultaneously started:\n
+        <b>-</b> The <b>lane_add_threads</b> and the
+    <b>lane_sub_threads</b> that periodically add and subtract traffic density
+        to the lanes at the rate of one density point per second at the intervals
+    defined by the user in the simulation settings page.\n
+        <b>-</b> The <b>control_traffic_light_thread</b> that periodically sets a specific
+        light in the control diagram to orange, green then red in a predefined order at intervals defined by the
+        user in the simulation settings page.\n
+        <b>-</b> The <b>ai_traffic_light_thread</b> that periodically sets a specific
+        light in the adaptable diagram to orange, green then red in a order that is
+        decided by the AI algorithm. The algorithm used is the Random Forest Algorithm.
+        The AI model is fed a set of density values from all the lanes in the junction
+        during the simulation at short intervals. The algorithm then predicts which light
+        to turn red/green based on the input. The AI predictions are further processed
+        based on some extra parameters such as how long a light has gone without being green.\n
+        
+    </string>
     <string-array name="junctionTypes">
         <item>T junction</item>
         <item>Roundabout</item>

@@ -44,13 +44,29 @@ public class HistoryAdapter extends FirestoreRecyclerAdapter<POJO_simulation, Hi
         yourHistoryHolder.density.setText(pojoSimulationCustom.getDensityType());
         yourHistoryHolder.time_value.setText(time_str_array[0]);
         if (!pojoSimulationCustom.getAi_efficiency().equals("") && !pojoSimulationCustom.getControl_efficiency().equals("")) {
-        yourHistoryHolder.efficiency.setText(pojoSimulationCustom.getAi_efficiency()+"%");
-        if (Float.parseFloat(pojoSimulationCustom.getAi_efficiency()) > Float.parseFloat(pojoSimulationCustom.getControl_efficiency())) {
-            yourHistoryHolder.efficiency.setTextColor(Color.parseColor("#0b6103"));
-        } else {
-            yourHistoryHolder.efficiency.setTextColor(Color.parseColor("#FF0000"));
+            float efficiency_of_ai = ((Float.parseFloat(pojoSimulationCustom.getAi_efficiency()) - Float.parseFloat(pojoSimulationCustom.getControl_efficiency())) / Float.parseFloat(pojoSimulationCustom.getControl_efficiency()) * 100);
+            if (efficiency_of_ai < 0) {
+                efficiency_of_ai = efficiency_of_ai * -1;
+                yourHistoryHolder.efficiency.setText(String.valueOf(efficiency_of_ai));
+                if (Float.parseFloat(pojoSimulationCustom.getAi_efficiency()) < Float.parseFloat(pojoSimulationCustom.getControl_efficiency())) {
+                    yourHistoryHolder.efficiency.setTextColor(Color.parseColor("#0b6103"));
+                    yourHistoryHolder.symbol.setTextColor(Color.parseColor("#0b6103"));
+                } else {
+                    yourHistoryHolder.efficiency.setTextColor(Color.parseColor("#FF0000"));
+                    yourHistoryHolder.symbol.setTextColor(Color.parseColor("#FF0000"));
+                }
+            }
+            else {
+                yourHistoryHolder.efficiency.setText(String.valueOf(efficiency_of_ai));
+                if (Float.parseFloat(pojoSimulationCustom.getAi_efficiency()) < Float.parseFloat(pojoSimulationCustom.getControl_efficiency())) {
+                    yourHistoryHolder.efficiency.setTextColor(Color.parseColor("#0b6103"));
+                    yourHistoryHolder.symbol.setTextColor(Color.parseColor("#0b6103"));
+                } else {
+                    yourHistoryHolder.efficiency.setTextColor(Color.parseColor("#FF0000"));
+                    yourHistoryHolder.symbol.setTextColor(Color.parseColor("#FF0000"));
+                }
+            }
         }
-    }
     }
 
     @NonNull
@@ -63,7 +79,7 @@ public class HistoryAdapter extends FirestoreRecyclerAdapter<POJO_simulation, Hi
     }
 
     class YourHistoryHolder extends RecyclerView.ViewHolder {
-        TextView junction, density, efficiency, time_value;
+        TextView junction, density, efficiency, time_value, symbol;
 
         //Button delete;
         public YourHistoryHolder(@NonNull View itemView) {
@@ -76,6 +92,8 @@ public class HistoryAdapter extends FirestoreRecyclerAdapter<POJO_simulation, Hi
                     id.ai_efficiency);
             time_value = itemView.findViewById(R.
                     id.time);
+            symbol = itemView.findViewById(R.
+                    id.percentage_symbol);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -92,7 +110,8 @@ public class HistoryAdapter extends FirestoreRecyclerAdapter<POJO_simulation, Hi
 
         }
     }
-    public void deleteSimulation(int position){
+
+    public void deleteSimulation(int position) {
         getSnapshots().getSnapshot(position).getReference().delete();
 
     }
