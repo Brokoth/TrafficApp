@@ -16,9 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,7 +36,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
     private FloatingActionButton save;
     private Button defaults;
     private FirebaseFirestore db;
-    private EditText red_value, orange_value, green_value, subtraction_time, addition_time;
+    private EditText orange_value, green_value, addition_time;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +48,8 @@ public class SimulationSettingsActivity extends AppCompatActivity {
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Simulation Settings");
         back = toolbar.findViewById(R.id.back);
-        red_value = findViewById(R.id.red_time);
         orange_value = findViewById(R.id.orange_time);
         green_value = findViewById(R.id.green_time);
-        subtraction_time = findViewById(R.id.clear_time);
         addition_time = findViewById(R.id.addition_time);
         cust_vids = findViewById(R.id.custom_traffic);
         save = findViewById(R.id.save_btn);
@@ -62,11 +62,9 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                     .document("timings").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        red_value.setText(documentSnapshot.getString("redTime"));
-                        green_value.setText(documentSnapshot.getString("greenTime"));
-                        orange_value.setText(documentSnapshot.getString("orangeTime"));
-                        subtraction_time.setText(documentSnapshot.getString("subtractionTime"));
-                        addition_time.setText(documentSnapshot.getString("additionTime"));
+                    green_value.setText(documentSnapshot.getString("greenTime"));
+                    orange_value.setText(documentSnapshot.getString("orangeTime"));
+                    addition_time.setText(documentSnapshot.getString("additionTime"));
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -79,11 +77,9 @@ public class SimulationSettingsActivity extends AppCompatActivity {
         defaults.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        red_value.setText("10");
-                        green_value.setText("10");
-                        orange_value.setText("3");
-                        subtraction_time.setText("1");
-                        addition_time.setText("5");
+                green_value.setText("10");
+                orange_value.setText("3");
+                addition_time.setText("5");
             }
         });
 
@@ -108,11 +104,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(red_value.getText().toString())) {
-                    Toast.makeText(SimulationSettingsActivity.this, "Set the duration time for red light", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
-                    return;
-                } else if (TextUtils.isEmpty(orange_value.getText().toString())) {
+                if (TextUtils.isEmpty(orange_value.getText().toString())) {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the duration time for orange light", Toast.LENGTH_SHORT).show();
                     // progressBar.setVisibility(View.GONE);
                     return;
@@ -124,13 +116,9 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the time between density increases", Toast.LENGTH_SHORT).show();
                     // progressBar.setVisibility(View.GONE);
                     return;
-                } else if (TextUtils.isEmpty(subtraction_time.getText().toString())) {
-                    Toast.makeText(SimulationSettingsActivity.this, "Set the time between density decreases", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
-                    return;
                 } else {
                     db.collection("Users").document(uid).collection("Simulation_Settings")
-                            .document("timings").update("redTime", red_value.getText().toString(), "greenTime", green_value.getText().toString(), "orangeTime", orange_value.getText().toString(), "additionTime", addition_time.getText().toString(), "subtractionTime", subtraction_time.getText().toString())
+                            .document("timings").update("greenTime", green_value.getText().toString(), "orangeTime", orange_value.getText().toString(), "additionTime", addition_time.getText().toString())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

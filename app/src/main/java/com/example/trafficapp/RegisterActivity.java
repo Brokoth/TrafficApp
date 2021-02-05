@@ -99,8 +99,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                     status = "user";
                                     POJO_user user = new POJO_user(status, inputEmail, id);
-                                    POJO_simulation_settings simulationSettings = new POJO_simulation_settings("10", "10", "3", "5", "1");
-                                    POJO_links links = new POJO_links("", "", "", "","");
+                                    POJO_simulation_settings simulationSettings = new POJO_simulation_settings("10", "3", "5");
+                                    POJO_links links = new POJO_links("", "", "", "", "");
                                     POJO_link_values link_values = new POJO_link_values("", "", "", "");
                                     db.collection("Users").document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override

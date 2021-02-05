@@ -212,8 +212,16 @@ public class rounda_lane_2_add_thread extends Thread {
                 }
             } else {
                 int length = Array.getLength(result);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        con_lane_2.setText(String.valueOf(result[0]));
+                        ai_lane_2.setText(String.valueOf(result[0]));
+                    }
+                });
+                SystemClock.sleep(add_time);
                 while (SimulationActivity.running) {
-                    for (int i = 0; i < length; i++) {
+                    for (int i = 1; i < length; i++) {
                         if (SimulationActivity.running) {
                             Log.d(TAG, "run: " + result[i]);
                             if (result[i] > 10) {

@@ -4,11 +4,9 @@ public class POJO_simulation {
     public String userID;
     public String junctionType;
     public String densityType;
-    public String redTime;
     public String greenTime;
     public String orangeTime;
     public String additionTime;
-    public String subtractionTime;
     public String link_one;
     public String link_two;
     public String link_three;
@@ -49,14 +47,6 @@ public class POJO_simulation {
         this.densityType = densityType;
     }
 
-    public String getRedTime() {
-        return redTime;
-    }
-
-    public void setRedTime(String redTime) {
-        this.redTime = redTime;
-    }
-
     public String getGreenTime() {
         return greenTime;
     }
@@ -81,13 +71,6 @@ public class POJO_simulation {
         this.additionTime = additionTime;
     }
 
-    public String getSubtractionTime() {
-        return subtractionTime;
-    }
-
-    public void setSubtractionTime(String subtractionTime) {
-        this.subtractionTime = subtractionTime;
-    }
 
     public String getLink_one() {
         return link_one;
@@ -185,15 +168,13 @@ public class POJO_simulation {
         this.con_coords = con_coords;
     }
 
-    public POJO_simulation(String userID, String junctionType, String densityType, String redTime, String greenTime, String orangeTime, String additionTime, String subtractionTime, String link_one, String link_two, String link_three, String link_four, String frame_interval, String start_time, String end_time, String timemilli, String ai_efficiency, String control_efficiency, String ai_coords, String con_coords) {
+    public POJO_simulation(String userID, String junctionType, String densityType, String greenTime, String orangeTime, String additionTime, String link_one, String link_two, String link_three, String link_four, String frame_interval, String start_time, String end_time, String timemilli, String ai_efficiency, String control_efficiency, String ai_coords, String con_coords) {
         this.userID = userID;
         this.junctionType = junctionType;
         this.densityType = densityType;
-        this.redTime = redTime;
         this.greenTime = greenTime;
         this.orangeTime = orangeTime;
         this.additionTime = additionTime;
-        this.subtractionTime = subtractionTime;
         this.link_one = link_one;
         this.link_two = link_two;
         this.link_three = link_three;

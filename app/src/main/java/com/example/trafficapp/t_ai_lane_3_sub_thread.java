@@ -9,14 +9,14 @@ public class t_ai_lane_3_sub_thread extends Thread {
     public Handler handler;
     private String TAG = "t_ai_lane_3_sub_thread";
 
-    t_ai_lane_3_sub_thread(int seconds) {
-        this.seconds = seconds;
+    t_ai_lane_3_sub_thread() {
+
     }
 
     @Override
     public void run() {
         handler = new Handler(Looper.getMainLooper());
-        seconds = seconds * 1000;
+        seconds = 1000;
         while (SimulationActivity.running) {
             if (SimulationActivity.tjunction_ai_light_3.getText().toString().equals("green")&&Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString())>0){
                 handler.post(new Runnable() {

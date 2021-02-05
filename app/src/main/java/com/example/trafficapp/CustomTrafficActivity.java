@@ -119,19 +119,19 @@ public class CustomTrafficActivity extends AppCompatActivity {
                     return;
 
                 } else if (!linkTwo.getText().toString().matches(pattern)) {
-                    Toast.makeText(CustomTrafficActivity.this, "Link one is invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CustomTrafficActivity.this, "Link two is invalid", Toast.LENGTH_SHORT).show();
                     generate.setVisibility(View.VISIBLE);
                     generate_progress_bar.setVisibility(View.GONE);
                     return;
 
                 } else if (!linkThree.getText().toString().matches(pattern)) {
-                    Toast.makeText(CustomTrafficActivity.this, "Link one is invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CustomTrafficActivity.this, "Link three is invalid", Toast.LENGTH_SHORT).show();
                     generate.setVisibility(View.VISIBLE);
                     generate_progress_bar.setVisibility(View.GONE);
                     return;
 
                 } else if (!linkFour.getText().toString().matches(pattern)) {
-                    Toast.makeText(CustomTrafficActivity.this, "Link one is invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CustomTrafficActivity.this, "Link four is invalid", Toast.LENGTH_SHORT).show();
                     generate.setVisibility(View.VISIBLE);
                     generate_progress_bar.setVisibility(View.GONE);
                     return;

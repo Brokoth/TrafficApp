@@ -1,32 +1,21 @@
 package com.example.trafficapp;
 
 public class POJO_simulation_settings {
-    public String redTime;
     public String greenTime;
     public String orangeTime;
     public String additionTime;
-    public String subtractionTime;
 
 
-    public POJO_simulation_settings(){
+    public POJO_simulation_settings() {
 
     }
 
-    public POJO_simulation_settings(String redTime, String greenTime, String orangeTime, String additionTime, String subtractionTime) {
-        this.redTime = redTime;
+    public POJO_simulation_settings(String greenTime, String orangeTime, String additionTime) {
         this.greenTime = greenTime;
         this.orangeTime = orangeTime;
         this.additionTime = additionTime;
-        this.subtractionTime = subtractionTime;
     }
 
-    public String getRedTime() {
-        return redTime;
-    }
-
-    public void setRedTime(String redTime) {
-        this.redTime = redTime;
-    }
 
     public String getGreenTime() {
         return greenTime;
@@ -52,12 +41,5 @@ public class POJO_simulation_settings {
         this.additionTime = additionTime;
     }
 
-    public String getSubtractionTime() {
-        return subtractionTime;
-    }
-
-    public void setSubtractionTime(String subtractionTime) {
-        this.subtractionTime = subtractionTime;
-    }
 
 }

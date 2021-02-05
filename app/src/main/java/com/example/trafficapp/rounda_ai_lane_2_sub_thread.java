@@ -9,14 +9,14 @@ public class rounda_ai_lane_2_sub_thread extends Thread {
     public Handler handler;
     private String TAG = "rounda_ai_lane_2_sub_thread";
 
-    rounda_ai_lane_2_sub_thread(int seconds) {
-        this.seconds = seconds;
+    rounda_ai_lane_2_sub_thread() {
+
     }
 
     @Override
     public void run() {
         handler = new Handler(Looper.getMainLooper());
-        seconds = seconds * 1000;
+        seconds = 1000;
         while (SimulationActivity.running) {
             if (SimulationActivity.roundabout_ai_light_2.getText().toString().equals("green")&&Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString())>0){
                 handler.post(new Runnable() {

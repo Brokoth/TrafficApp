@@ -11,12 +11,13 @@ public class control_traffic_sequencing_thread extends Thread {
     private Context c;
     public Looper looper;
     private TextView light_1, light_2, light_3, light_4;
-    private int seconds;
+    private int greentime,orangetime;
     private String junctionType;
     public Handler handler;
 
-    control_traffic_sequencing_thread(int seconds, String junctionType, Context c, TextView light_1, TextView light_2, TextView light_3) {
-        this.seconds = seconds;
+    control_traffic_sequencing_thread(int greentime,int orangetime, String junctionType, Context c, TextView light_1, TextView light_2, TextView light_3) {
+        this.orangetime = orangetime;
+        this.greentime = greentime;
         this.junctionType = junctionType;
         this.c = c;
         this.light_1 = light_1;
@@ -24,8 +25,9 @@ public class control_traffic_sequencing_thread extends Thread {
         this.light_3 = light_3;
     }
 
-    control_traffic_sequencing_thread(int seconds, String junctionType, Context c, TextView light_1, TextView light_2, TextView light_3, TextView light_4) {
-        this.seconds = seconds;
+    control_traffic_sequencing_thread(int greentime,int orangetime, String junctionType, Context c, TextView light_1, TextView light_2, TextView light_3, TextView light_4) {
+        this.orangetime = orangetime;
+        this.greentime = greentime;
         this.junctionType = junctionType;
         this.c = c;
         this.light_1 = light_1;
@@ -38,7 +40,8 @@ public class control_traffic_sequencing_thread extends Thread {
     public void run() {
         looper = Looper.myLooper();
         handler = new Handler(Looper.getMainLooper());
-        seconds = seconds * 1000;
+        orangetime = orangetime * 1000;
+        greentime = greentime * 1000;
         if (junctionType.equals("T junction")) {
 
 
@@ -50,7 +53,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 }
             });
 
-            SystemClock.sleep(3000);
+            SystemClock.sleep(orangetime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -58,7 +61,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_1.setText("green");
                 }
             });
-            SystemClock.sleep(seconds);
+            SystemClock.sleep(greentime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -68,7 +71,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_2.setText("orange");
                 }
             });
-            SystemClock.sleep(3000);
+            SystemClock.sleep(orangetime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -78,7 +81,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_2.setText("green");
                 }
             });
-            SystemClock.sleep(seconds);
+            SystemClock.sleep(greentime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -88,7 +91,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_3.setText("orange");
                 }
             });
-            SystemClock.sleep(3000);
+            SystemClock.sleep(orangetime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -98,7 +101,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_3.setText("green");
                 }
             });
-            SystemClock.sleep(seconds);
+            SystemClock.sleep(greentime);
 
             while (SimulationActivity.running) {
                 handler.post(new Runnable() {
@@ -112,7 +115,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(3000);
+                SystemClock.sleep(orangetime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -124,7 +127,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(seconds);
+                SystemClock.sleep(greentime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -136,7 +139,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(3000);
+                SystemClock.sleep(orangetime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -148,7 +151,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(seconds);
+                SystemClock.sleep(greentime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -160,7 +163,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(3000);
+                SystemClock.sleep(orangetime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -172,7 +175,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(seconds);
+                SystemClock.sleep(greentime);
             }
 
             handler.post(new Runnable() {
@@ -196,7 +199,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 }
             });
 
-            SystemClock.sleep(3000);
+            SystemClock.sleep(orangetime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -204,7 +207,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_1.setText("green");
                 }
             });
-            SystemClock.sleep(seconds);
+            SystemClock.sleep(greentime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -215,7 +218,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 }
             });
 
-            SystemClock.sleep(3000);
+            SystemClock.sleep(orangetime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -225,7 +228,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_2.setText("green");
                 }
             });
-            SystemClock.sleep(seconds);
+            SystemClock.sleep(greentime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -235,7 +238,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_3.setText("orange");
                 }
             });
-            SystemClock.sleep(3000);
+            SystemClock.sleep(orangetime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -245,7 +248,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_3.setText("green");
                 }
             });
-            SystemClock.sleep(seconds);
+            SystemClock.sleep(greentime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -255,7 +258,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_4.setText("orange");
                 }
             });
-            SystemClock.sleep(3000);
+            SystemClock.sleep(orangetime);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -265,7 +268,7 @@ public class control_traffic_sequencing_thread extends Thread {
                     light_4.setText("green");
                 }
             });
-            SystemClock.sleep(seconds);
+            SystemClock.sleep(greentime);
             while (SimulationActivity.running) {
                 handler.post(new Runnable() {
                     @Override
@@ -278,7 +281,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(3000);
+                SystemClock.sleep(orangetime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -290,7 +293,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(seconds);
+                SystemClock.sleep(greentime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -302,7 +305,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(3000);
+                SystemClock.sleep(orangetime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -314,7 +317,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(seconds);
+                SystemClock.sleep(greentime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -326,7 +329,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(3000);
+                SystemClock.sleep(orangetime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -338,7 +341,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(seconds);
+                SystemClock.sleep(greentime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -350,7 +353,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(3000);
+                SystemClock.sleep(orangetime);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -362,7 +365,7 @@ public class control_traffic_sequencing_thread extends Thread {
                 });
                 if (!SimulationActivity.running)
                     break;
-                SystemClock.sleep(seconds);
+                SystemClock.sleep(greentime);
             }
             handler.post(new Runnable() {
                 @Override

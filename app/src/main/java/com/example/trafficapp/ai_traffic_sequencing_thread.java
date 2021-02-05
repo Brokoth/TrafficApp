@@ -19,13 +19,13 @@ import java.util.Random;
 public class ai_traffic_sequencing_thread extends Thread {
     private String junctionType;
     private Context c;
-    private int seconds;
+    private int orangetime;
     public Handler handler;
 
-    ai_traffic_sequencing_thread(int seconds, String junctionType, Context c) {
+    ai_traffic_sequencing_thread(int orangetime, String junctionType, Context c) {
         this.junctionType = junctionType;
         this.c = c;
-        this.seconds = seconds;
+        this.orangetime = orangetime;
 
     }
 
@@ -33,7 +33,7 @@ public class ai_traffic_sequencing_thread extends Thread {
     @Override
     public void run() {
         handler = new Handler(Looper.getMainLooper());
-        seconds = seconds * 1000;
+        int seconds = 10000;
         int new_green = 0;
         if (!Python.isStarted())
             Python.start(new AndroidPlatform(c));
@@ -67,7 +67,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -87,7 +87,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -111,7 +111,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -131,7 +131,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -155,7 +155,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -175,7 +175,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -196,7 +196,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.tjunction_ai_light_1.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -212,7 +212,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.tjunction_ai_light_2.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -228,7 +228,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.tjunction_ai_light_3.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -254,7 +254,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -274,7 +274,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -298,7 +298,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -318,7 +318,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -342,7 +342,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -362,7 +362,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -383,7 +383,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.tjunction_ai_light_1.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -399,7 +399,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.tjunction_ai_light_2.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -415,7 +415,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.tjunction_ai_light_3.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -456,7 +456,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -476,7 +476,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -496,7 +496,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_4.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -520,7 +520,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -540,7 +540,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -560,7 +560,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_4.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -584,7 +584,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -604,7 +604,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -624,7 +624,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_4.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -648,7 +648,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -668,7 +668,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -688,7 +688,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -709,7 +709,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.roundabout_ai_light_1.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -725,7 +725,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.roundabout_ai_light_2.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -741,7 +741,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.roundabout_ai_light_3.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -758,7 +758,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.roundabout_ai_light_4.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -783,7 +783,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -803,7 +803,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -823,7 +823,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_4.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -847,7 +847,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -867,7 +867,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.tjunction_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -887,7 +887,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_4.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -911,7 +911,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -931,7 +931,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -951,7 +951,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_4.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -975,7 +975,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_2.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -995,7 +995,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_1.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1015,7 +1015,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                         SimulationActivity.roundabout_ai_light_3.setText("orange");
                                     }
                                 });
-                                SystemClock.sleep(3000);
+                                SystemClock.sleep(orangetime);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1036,7 +1036,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.roundabout_ai_light_1.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -1052,7 +1052,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.roundabout_ai_light_2.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -1068,7 +1068,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.roundabout_ai_light_3.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -1085,7 +1085,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                                     SimulationActivity.roundabout_ai_light_4.setText("orange");
                                 }
                             });
-                            SystemClock.sleep(3000);
+                            SystemClock.sleep(orangetime);
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
