@@ -234,9 +234,8 @@ public class SimulationStatsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.signout:
-                auth.signOut();
-                startActivity(new Intent(SimulationStatsActivity.this, LoginActivity.class));
+            case R.id.account:
+                startActivity(new Intent(SimulationStatsActivity.this, AccountSettingsActivity.class));
                 finish();
                 break;
 

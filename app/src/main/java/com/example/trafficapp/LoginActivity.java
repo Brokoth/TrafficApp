@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 final String password = inputPassword.getText().toString();
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     Toast.makeText(getApplicationContext(), "Please fill all the fields.", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     return;
                 } else {
                     auth.signInWithEmailAndPassword(email, password)

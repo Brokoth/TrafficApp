@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!(password.equals(cpassword))) {
                     Toast.makeText(getApplicationContext(), "The entered passwords do not match", Toast.LENGTH_LONG).show();
                     return;
-                }
+                } else {
                 progressBar.setVisibility(View.VISIBLE);
                 //create user
                 auth.createUserWithEmailAndPassword(inputEmail, password)
@@ -143,6 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                                                     }).addOnFailureListener(new OnFailureListener() {
                                                                                 @Override
                                                                                 public void onFailure(@NonNull Exception e) {
+                                                                                    progressBar.setVisibility(View.GONE);
                                                                                     Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
                                                                                             Toast.LENGTH_SHORT).show();
                                                                                     newuser.delete();
@@ -152,6 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                                     }).addOnFailureListener(new OnFailureListener() {
                                                                 @Override
                                                                 public void onFailure(@NonNull Exception e) {
+                                                                    progressBar.setVisibility(View.GONE);
                                                                     Toast.makeText(RegisterActivity.this, "Registration failed. Please check your internet connection or try again later. ",
                                                                             Toast.LENGTH_SHORT).show();
                                                                     newuser.delete();
@@ -181,6 +183,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             }
                         });
+            }
             }
         });
     }

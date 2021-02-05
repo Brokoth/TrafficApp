@@ -134,9 +134,8 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.signout:
-                auth.signOut();
-                startActivity(new Intent(HistoryActivity.this, LoginActivity.class));
+            case R.id.account:
+                startActivity(new Intent(HistoryActivity.this, AccountSettingsActivity.class));
                 finish();
                 break;
 

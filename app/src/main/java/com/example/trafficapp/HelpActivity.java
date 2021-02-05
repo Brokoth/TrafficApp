@@ -113,9 +113,8 @@ public class HelpActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.signout:
-                auth.signOut();
-                startActivity(new Intent(HelpActivity.this, LoginActivity.class));
+            case R.id.account:
+                startActivity(new Intent(HelpActivity.this, AccountSettingsActivity.class));
                 finish();
                 break;
 

@@ -24,7 +24,7 @@
                 android:id="@+id/reg_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_700"
+
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white" />
@@ -41,7 +41,7 @@
                 android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_700"
+
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:textColor="@color/white" />
@@ -58,7 +58,7 @@
                 android:id="@+id/confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_700"
+
                 android:hint="re-enter the password"
                 android:inputType="textPassword"
                 android:textColor="@color/white" />
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
-            android:text="Already have an account? Login here"
+            android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15dp"

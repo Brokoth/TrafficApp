@@ -3,6 +3,10 @@
     <string name="Simulation_algorithms"><u><b><i>Simulation algorithms</i></b></u></string>
     <string name="Simulation_Calibrations"><u><b><i>Simulation Calibrations</i></b></u></string>
     <string name="Simulation_History"><u><b><i>Simulation History and Stats</i></b></u></string>
+    <string name="back"><u><b><i>Back</i></b></u></string>
+    <string name="register"><u><b><i>Don\'t have an account? Register here</i></b></u></string>
+    <string name="login"><u><b><i>Already have an account? Login here</i></b></u></string>
+    <string name="password"><u><b><i>Forgot your password? Reset it here</i></b></u></string>
     <string name="alg_exp1">
         \tIn this section, we will discuss the logic behind the application\'s main
     functionality displayed in the <b>simulation</b> page.\n
@@ -36,7 +40,7 @@
         <b>- Light duration times: </b> These settings set the duration in which a certain colour will be displayed.
         Apart from the orange light time which applies for both the control and the A.I simulation variants,
         these settings are only for the control simulation.\n
-        <b>- Density increase and decrease times: </b> These settings set the interval between traffic density
+        <b>- Density increase time: </b> This setting set the interval between traffic density
         changes for all lanes and for both the control and A.I simulation variants.\n
         <b>- Custom traffic (YouTube links): </b> These settings initiate a <b>video_saving_and_car_detection</b> thread that
         downloads the traffic footage from YouTube to the devices internal storage and extracts frames from the footage

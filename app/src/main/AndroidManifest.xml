@@ -38,6 +38,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".AccountSettingsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".SimulationStatsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />

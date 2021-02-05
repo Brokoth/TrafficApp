@@ -186,9 +186,8 @@ public class CustomTrafficActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.signout:
-                auth.signOut();
-                startActivity(new Intent(CustomTrafficActivity.this, LoginActivity.class));
+            case R.id.account:
+                startActivity(new Intent(CustomTrafficActivity.this, AccountSettingsActivity.class));
                 finish();
                 break;
         }
