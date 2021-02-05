@@ -252,6 +252,7 @@ public class SimulationActivity extends AppCompatActivity {
                                         if (densityspinner.getSelectedItem().toString().equals("Custom")) {
                                             if (laneone_link.equals("") || lanetwo_link.equals("") || lanethree_link.equals("") || lanefour_link.equals("")) {
                                                 Toast.makeText(SimulationActivity.this, "Add some custom footage in the settings first", Toast.LENGTH_SHORT).show();
+                                                return;
                                             } else {
 
                                                 POJO_simulation simulation =
@@ -287,36 +288,6 @@ public class SimulationActivity extends AppCompatActivity {
                                                             controlTrafficSequencingThread.start();
                                                             aiTrafficSequencingThread = new ai_traffic_sequencing_thread(Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
                                                             aiTrafficSequencingThread.start();
-                                                            if (densityspinner.getSelectedItem().toString().equals("Heavy Traffic")) {
-                                                                tjunction_con_lane_1_in.setText("10");
-                                                                tjunction_con_lane_2_in.setText("10");
-                                                                tjunction_con_lane_3_in.setText("10");
-                                                                tjunction_ai_lane_1_in.setText("10");
-                                                                tjunction_ai_lane_2_in.setText("10");
-                                                                tjunction_ai_lane_3_in.setText("10");
-
-                                                            } else if (densityspinner.getSelectedItem().toString().equals("Light Traffic")) {
-                                                                tjunction_con_lane_1_in.setText("2");
-                                                                tjunction_con_lane_2_in.setText("2");
-                                                                tjunction_con_lane_3_in.setText("2");
-                                                                tjunction_ai_lane_1_in.setText("2");
-                                                                tjunction_ai_lane_2_in.setText("2");
-                                                                tjunction_ai_lane_3_in.setText("2");
-                                                            } else {
-                                                                Random rand = new Random();
-                                                                int rand_no = rand.nextInt(11);
-                                                                tjunction_con_lane_1_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                tjunction_con_lane_2_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                tjunction_con_lane_3_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                tjunction_ai_lane_1_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                tjunction_ai_lane_2_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                tjunction_ai_lane_3_in.setText(String.valueOf(rand_no));
-                                                            }
                                                         } else {
                                                             roundaEfficiencyThread = new rounda_efficiency_thread(roundabout_ai_lane_1_in, roundabout_ai_lane_2_in, roundabout_ai_lane_3_in, roundabout_ai_lane_4_in, roundabout_con_lane_1_in, roundabout_con_lane_2_in, roundabout_con_lane_3_in, roundabout_con_lane_4_in, SimulationActivity.this, simulationid, id);
                                                             roundaEfficiencyThread.start();
@@ -348,43 +319,6 @@ public class SimulationActivity extends AppCompatActivity {
                                                             controlTrafficSequencingThread.start();
                                                             aiTrafficSequencingThread = new ai_traffic_sequencing_thread(Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
                                                             aiTrafficSequencingThread.start();
-                                                            if (densityspinner.getSelectedItem().toString().equals("Heavy Traffic")) {
-                                                                roundabout_con_lane_1_in.setText("10");
-                                                                roundabout_con_lane_2_in.setText("10");
-                                                                roundabout_con_lane_3_in.setText("10");
-                                                                roundabout_con_lane_4_in.setText("10");
-                                                                roundabout_ai_lane_1_in.setText("10");
-                                                                roundabout_ai_lane_2_in.setText("10");
-                                                                roundabout_ai_lane_3_in.setText("10");
-                                                                roundabout_ai_lane_4_in.setText("10");
-                                                            } else if (densityspinner.getSelectedItem().toString().equals("Light Traffic")) {
-                                                                roundabout_con_lane_1_in.setText("2");
-                                                                roundabout_con_lane_2_in.setText("2");
-                                                                roundabout_con_lane_3_in.setText("2");
-                                                                roundabout_con_lane_4_in.setText("2");
-                                                                roundabout_ai_lane_1_in.setText("2");
-                                                                roundabout_ai_lane_2_in.setText("2");
-                                                                roundabout_ai_lane_3_in.setText("2");
-                                                                roundabout_ai_lane_4_in.setText("2");
-                                                            } else {
-                                                                Random rand = new Random();
-                                                                int rand_no = rand.nextInt(11);
-                                                                roundabout_con_lane_1_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                roundabout_con_lane_2_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                roundabout_con_lane_3_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                roundabout_con_lane_4_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                roundabout_ai_lane_1_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                roundabout_ai_lane_2_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                roundabout_ai_lane_3_in.setText(String.valueOf(rand_no));
-                                                                rand_no = rand.nextInt(11);
-                                                                roundabout_ai_lane_4_in.setText(String.valueOf(rand_no));
-                                                            }
                                                         }
 
                                                     }

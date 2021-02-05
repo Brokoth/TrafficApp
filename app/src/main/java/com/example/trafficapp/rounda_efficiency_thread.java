@@ -71,7 +71,7 @@ public class rounda_efficiency_thread extends Thread {
                     con_lane4_val_1 = Integer.parseInt(con_lane_4.getText().toString());
                 }
             });
-            float average_con_traffic_density = (ai_lane1_val_1 + ai_lane2_val_1 + ai_lane3_val_1 + ai_lane4_val_1) / 4;
+            float average_con_traffic_density = (con_lane1_val_1 + con_lane2_val_1 + con_lane3_val_1 + con_lane4_val_1) / 4;
             float average_ai_traffic_density = (ai_lane1_val_1 + ai_lane2_val_1 + ai_lane3_val_1 + ai_lane4_val_1) / 4;
             sum_average_ai_traffic_density = sum_average_ai_traffic_density + average_ai_traffic_density;
             sum_average_con_traffic_density = sum_average_con_traffic_density + average_con_traffic_density;
