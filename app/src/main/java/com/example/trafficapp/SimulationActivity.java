@@ -26,6 +26,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -382,15 +384,12 @@ public class SimulationActivity extends AppCompatActivity {
                                                             Random rand = new Random();
                                                             int rand_no = rand.nextInt(11);
                                                             tjunction_con_lane_1_in.setText(String.valueOf(rand_no));
-                                                            rand_no = rand.nextInt(11);
-                                                            tjunction_con_lane_2_in.setText(String.valueOf(rand_no));
-                                                            rand_no = rand.nextInt(11);
-                                                            tjunction_con_lane_3_in.setText(String.valueOf(rand_no));
-                                                            rand_no = rand.nextInt(11);
                                                             tjunction_ai_lane_1_in.setText(String.valueOf(rand_no));
                                                             rand_no = rand.nextInt(11);
+                                                            tjunction_con_lane_2_in.setText(String.valueOf(rand_no));
                                                             tjunction_ai_lane_2_in.setText(String.valueOf(rand_no));
                                                             rand_no = rand.nextInt(11);
+                                                            tjunction_con_lane_3_in.setText(String.valueOf(rand_no));
                                                             tjunction_ai_lane_3_in.setText(String.valueOf(rand_no));
                                                         }
                                                     } else {
@@ -446,19 +445,15 @@ public class SimulationActivity extends AppCompatActivity {
                                                             Random rand = new Random();
                                                             int rand_no = rand.nextInt(11);
                                                             roundabout_con_lane_1_in.setText(String.valueOf(rand_no));
-                                                            rand_no = rand.nextInt(11);
-                                                            roundabout_con_lane_2_in.setText(String.valueOf(rand_no));
-                                                            rand_no = rand.nextInt(11);
-                                                            roundabout_con_lane_3_in.setText(String.valueOf(rand_no));
-                                                            rand_no = rand.nextInt(11);
-                                                            roundabout_con_lane_4_in.setText(String.valueOf(rand_no));
-                                                            rand_no = rand.nextInt(11);
                                                             roundabout_ai_lane_1_in.setText(String.valueOf(rand_no));
                                                             rand_no = rand.nextInt(11);
+                                                            roundabout_con_lane_2_in.setText(String.valueOf(rand_no));
                                                             roundabout_ai_lane_2_in.setText(String.valueOf(rand_no));
                                                             rand_no = rand.nextInt(11);
+                                                            roundabout_con_lane_3_in.setText(String.valueOf(rand_no));
                                                             roundabout_ai_lane_3_in.setText(String.valueOf(rand_no));
                                                             rand_no = rand.nextInt(11);
+                                                            roundabout_con_lane_4_in.setText(String.valueOf(rand_no));
                                                             roundabout_ai_lane_4_in.setText(String.valueOf(rand_no));
                                                         }
                                                     }

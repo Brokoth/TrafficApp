@@ -45,7 +45,7 @@ public class tjun_efficiency_thread extends Thread {
     @Override
     public void run() {
         handler = new Handler(Looper.getMainLooper());
-        float seconds = 5000;
+        float seconds = 1000;
         String all_ai_coords = "";
         String all_con_coords = "";
         // float sum_of_average_ai_change = 0;

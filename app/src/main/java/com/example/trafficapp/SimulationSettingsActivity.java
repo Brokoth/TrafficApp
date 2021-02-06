@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
     private ImageView cust_vids, back;
     private FloatingActionButton save;
     private Button defaults;
+    private ProgressBar settingsBar;
     private FirebaseFirestore db;
     private EditText orange_value, green_value, addition_time;
 
@@ -43,6 +45,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
         title.setText("Simulation Settings");
         back = toolbar.findViewById(R.id.back);
         orange_value = findViewById(R.id.orange_time);
+        settingsBar = findViewById(R.id.settings_progressBar);
         green_value = findViewById(R.id.green_time);
         addition_time = findViewById(R.id.addition_time);
         cust_vids = findViewById(R.id.custom_traffic);
@@ -98,17 +101,18 @@ public class SimulationSettingsActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                settingsBar.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(orange_value.getText().toString())) {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the duration time for orange light", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
+                    settingsBar.setVisibility(View.GONE);
                     return;
                 } else if (TextUtils.isEmpty(green_value.getText().toString())) {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the duration time for green light", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
+                    settingsBar.setVisibility(View.GONE);
                     return;
                 } else if (TextUtils.isEmpty(addition_time.getText().toString())) {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the time between density increases", Toast.LENGTH_SHORT).show();
-                    // progressBar.setVisibility(View.GONE);
+                    settingsBar.setVisibility(View.GONE);
                     return;
                 } else {
                     db.collection("Users").document(uid).collection("Simulation_Settings")
@@ -117,11 +121,13 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(SimulationSettingsActivity.this, "Settings Updated Successfully", Toast.LENGTH_SHORT).show();
+                                    settingsBar.setVisibility(View.GONE);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(SimulationSettingsActivity.this, "Failed to Update. Try Again Later", Toast.LENGTH_SHORT).show();
+                            settingsBar.setVisibility(View.GONE);
                         }
                     });
                 }
