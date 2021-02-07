@@ -53,7 +53,7 @@ import java.util.Date;
 public class SimulationStatsActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private ImageView back;
-    private TextView junctiontxt, densitytxt, redtxt, greentxt, orangetxt, subtxt, addtxt, link1txt, link2txt, link3txt, link4txt, frametxt;
+    private TextView junctiontxt, densitytxt, greentxt, orangetxt, addtxt, link1txt, link2txt, link3txt, link4txt, frametxt;
     private LinearLayout linksLayout;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private LineGraphSeries<DataPoint> con_series, ai_series;
@@ -64,10 +64,8 @@ public class SimulationStatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simulation_stats_activity_layout);
         Toolbar toolbar = findViewById(R.id.toolbar_sim_stats);
-        redtxt = findViewById(R.id.redtime);
         greentxt = findViewById(R.id.greentime);
         orangetxt = findViewById(R.id.orangetime);
-        subtxt = findViewById(R.id.subtractiontime);
         addtxt = findViewById(R.id.additiontime);
         link1txt = findViewById(R.id.linkone);
         link2txt = findViewById(R.id.linktwo);
@@ -89,10 +87,8 @@ public class SimulationStatsActivity extends AppCompatActivity {
                 document(simulationID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                redtxt.setText(documentSnapshot.getString("redTime"));
                 orangetxt.setText(documentSnapshot.getString("orangeTime"));
                 greentxt.setText(documentSnapshot.getString("greenTime"));
-                subtxt.setText(documentSnapshot.getString("subtractionTime"));
                 addtxt.setText(documentSnapshot.getString("additionTime"));
                 junctiontxt.setText(documentSnapshot.getString("junctionType"));
                 densitytxt.setText(documentSnapshot.getString("densityType"));

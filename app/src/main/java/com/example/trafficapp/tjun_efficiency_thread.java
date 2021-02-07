@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,12 +25,13 @@ public class tjun_efficiency_thread extends Thread {
     private Context c;
     private String simulationid, userid;
     private String TAG = "rounda_efficiency_thread";
+    private ProgressBar pbar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public Handler handler;
     private static float ai_lane1_val_1, ai_lane2_val_1, ai_lane3_val_1, ai_lane1_val_2, ai_lane2_val_2, ai_lane3_val_2,
             con_lane1_val_1, con_lane2_val_1, con_lane3_val_1, con_lane1_val_2, con_lane2_val_2, con_lane3_val_2;
 
-    tjun_efficiency_thread(TextView ai_lane_1, TextView ai_lane_2, TextView ai_lane_3, TextView con_lane_1, TextView con_lane_2, TextView con_lane_3, Context c, String simulationid, String userid) {
+    tjun_efficiency_thread(TextView ai_lane_1, TextView ai_lane_2, TextView ai_lane_3, TextView con_lane_1, TextView con_lane_2, TextView con_lane_3, Context c, String simulationid, String userid,ProgressBar pbar) {
         this.ai_lane_1 = ai_lane_1;
         this.c = c;
         this.ai_lane_2 = ai_lane_2;
@@ -37,6 +40,7 @@ public class tjun_efficiency_thread extends Thread {
         this.con_lane_2 = con_lane_2;
         this.con_lane_3 = con_lane_3;
         this.simulationid = simulationid;
+        this.pbar = pbar;
         this.userid = userid;
 
     }
@@ -116,6 +120,7 @@ public class tjun_efficiency_thread extends Thread {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                pbar.setVisibility(View.VISIBLE);
                 Toast.makeText(c, "Terminating simulation", Toast.LENGTH_SHORT).show();
                 db.collection("Users").document(userid).collection("Simulations").document(simulationid).
                         update("ai_coords", finalAll_ai_coords, "ai_efficiency", String.valueOf(df.format(overall_average_ai_traffic_density)),
@@ -125,12 +130,14 @@ public class tjun_efficiency_thread extends Thread {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(c, "Terminated simulation Successfully", Toast.LENGTH_SHORT).show();
+                                        pbar.setVisibility(View.GONE);
                                     }
                                 }
                         ).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(c, "Failed to upload simulation end time", Toast.LENGTH_SHORT).show();
+                        pbar.setVisibility(View.GONE);
                     }
                 });
             }

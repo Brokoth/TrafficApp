@@ -33,27 +33,30 @@ public class ai_traffic_sequencing_thread extends Thread {
     @Override
     public void run() {
         handler = new Handler(Looper.getMainLooper());
-        int seconds = 10000;
-        orangetime = orangetime * 1000;
+        int seconds = 8000;
+        //orangetime = orangetime * 1000;
         int new_green = 0;
         if (!Python.isStarted())
             Python.start(new AndroidPlatform(c));
         Python python = Python.getInstance();
         PyObject pyObj = python.getModule("traffic_light_python_script");
-        // pyObj.callAttr("main");
-        int max_light_gap = 3;
+        pyObj.callAttr("main");
+        int tjun_max_light_gap = 3;
+        int rounda_max_light_gap = 3;
         final int[] light_one_count = {0};
         final int[] light_two_count = {0};
         final int[] light_three_count = {0};
         final int[] light_four_count = {0};
         if (junctionType.equals("T junction")) {
             while (SimulationActivity.running) {
+                Log.d("debug ai issues: ", "count: " + light_one_count[0] + " count2: " + light_two_count[0] + " count3: " + light_three_count[0]);
                 int lane1_val = Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString());
                 int lane2_val = Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString());
                 int lane3_val = Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString());
-                if ((light_one_count[0] - light_two_count[0]) > max_light_gap || (light_one_count[0] - light_three_count[0]) > max_light_gap || (light_two_count[0] - light_one_count[0]) > max_light_gap
-                        || (light_two_count[0] - light_three_count[0]) > max_light_gap || (light_three_count[0] - light_one_count[0]) > max_light_gap
-                        || (light_three_count[0] - light_two_count[0]) > max_light_gap) {
+                if ((light_one_count[0] - light_two_count[0]) > tjun_max_light_gap || (light_one_count[0] - light_three_count[0]) > tjun_max_light_gap || (light_two_count[0] - light_one_count[0]) > tjun_max_light_gap
+                        || (light_two_count[0] - light_three_count[0]) > tjun_max_light_gap || (light_three_count[0] - light_one_count[0]) > tjun_max_light_gap
+                        || (light_three_count[0] - light_two_count[0]) > tjun_max_light_gap) {
+                    Log.d("debug ai issues: ", "over tjun_max_light_gap");
                     if (light_one_count[0] < light_two_count[0] && light_one_count[0] < light_three_count[0]) {
                         if (SimulationActivity.tjunction_ai_light_1.getText().toString().equals("green")) {
                             light_one_count[0]++;
@@ -258,8 +261,8 @@ public class ai_traffic_sequencing_thread extends Thread {
                         }
                     }
                 } else {
-
-                    PyObject t_junction = pyObj.callAttr("t_junction", lane1_val, lane2_val, lane3_val, c.getFilesDir().toString());
+                    Log.d("debug ai issues: ", "sub tjun_max_light_gap");
+                    PyObject t_junction = pyObj.callAttr("t_junction", lane1_val, lane2_val, lane3_val);
                     Log.d("tjun ai: ", t_junction.toString());
                     char[] result = t_junction.toString().replaceAll("[\\[\\]]", "").toCharArray();
                     int length = Array.getLength(result);
@@ -272,36 +275,31 @@ public class ai_traffic_sequencing_thread extends Thread {
                     if (new_green != 0) {
                         if (SimulationActivity.tjunction_ai_light_1.getText().toString().equals("green")) {
                             if (new_green != 1) {
-                                if (new_green == 2) {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_1.setText("orange");
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.tjunction_ai_light_1.setText("red");
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.tjunction_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (new_green == 2 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_1.setText("orange");
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.tjunction_ai_light_1.setText("red");
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.tjunction_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -328,36 +326,31 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.tjunction_ai_light_2.getText().toString().equals("green")) {
                             if (new_green != 2) {
-                                if (new_green == 1) {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_2.setText("orange");
-                                                SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_1.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.tjunction_ai_light_2.setText("red");
-                                                SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.tjunction_ai_light_1.setText("green");
-                                                light_one_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (new_green == 1 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_2.setText("orange");
+                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_1.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.tjunction_ai_light_2.setText("red");
+                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.tjunction_ai_light_1.setText("green");
+                                            light_one_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -384,36 +377,31 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.tjunction_ai_light_3.getText().toString().equals("green")) {
                             if (new_green != 3) {
-                                if (new_green == 2) {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_3.setText("orange");
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.tjunction_ai_light_3.setText("red");
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.tjunction_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (new_green == 2 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_3.setText("orange");
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.tjunction_ai_light_3.setText("red");
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.tjunction_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -439,54 +427,46 @@ public class ai_traffic_sequencing_thread extends Thread {
                                 }
                             }
                         } else {
-                            if (new_green == 1) {
-                                if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.tjunction_ai_light_1.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.tjunction_ai_light_1.setText("green");
-                                            light_one_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
-                            } else if (new_green == 2) {
-                                if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.tjunction_ai_light_2.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.tjunction_ai_light_2.setText("green");
-                                            light_two_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
+                            if (new_green == 1 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.tjunction_ai_light_1.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.tjunction_ai_light_1.setText("green");
+                                        light_one_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
+
+                            } else if (new_green == 2 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.tjunction_ai_light_2.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.tjunction_ai_light_2.setText("green");
+                                        light_two_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
+
                             } else {
-                                if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) == 0)
-                                    return;
-                                else {
+                                if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) != 0) {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -512,36 +492,31 @@ public class ai_traffic_sequencing_thread extends Thread {
                         int rand_no = rand.nextInt(3) + 1;
                         if (SimulationActivity.tjunction_ai_light_1.getText().toString().equals("green")) {
                             if (rand_no != 1) {
-                                if (rand_no == 2) {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_1.setText("orange");
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.tjunction_ai_light_1.setText("red");
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.tjunction_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (rand_no == 2 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_1.setText("orange");
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.tjunction_ai_light_1.setText("red");
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.tjunction_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -568,36 +543,31 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.tjunction_ai_light_2.getText().toString().equals("green")) {
                             if (rand_no != 2) {
-                                if (rand_no == 1) {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_2.setText("orange");
-                                                SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_1.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.tjunction_ai_light_2.setText("red");
-                                                SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.tjunction_ai_light_1.setText("green");
-                                                light_one_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (rand_no == 1 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_2.setText("orange");
+                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_1.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.tjunction_ai_light_2.setText("red");
+                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.tjunction_ai_light_1.setText("green");
+                                            light_one_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -624,36 +594,30 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.tjunction_ai_light_3.getText().toString().equals("green")) {
                             if (rand_no != 3) {
-                                if (rand_no == 2) {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_3.setText("orange");
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.tjunction_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.tjunction_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.tjunction_ai_light_3.setText("red");
-                                                SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.tjunction_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (rand_no == 2 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_3.setText("orange");
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.tjunction_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.tjunction_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.tjunction_ai_light_3.setText("red");
+                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.tjunction_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -679,54 +643,45 @@ public class ai_traffic_sequencing_thread extends Thread {
                                 }
                             }
                         } else {
-                            if (rand_no == 1) {
-                                if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.tjunction_ai_light_1.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.tjunction_ai_light_1.setText("green");
-                                            light_one_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
-                            } else if (rand_no == 2) {
-                                if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.tjunction_ai_light_2.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.tjunction_ai_light_2.setText("green");
-                                            light_two_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
+                            if (rand_no == 1 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_1_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.tjunction_ai_light_1.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.tjunction_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.tjunction_ai_light_1.setText("green");
+                                        light_one_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
+
+                            } else if (rand_no == 2 && Integer.parseInt(SimulationActivity.tjunction_ai_lane_2_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.tjunction_ai_light_2.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.tjunction_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.tjunction_ai_light_2.setText("green");
+                                        light_two_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
                             } else {
-                                if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) == 0)
-                                    return;
-                                else {
+                                if (Integer.parseInt(SimulationActivity.tjunction_ai_lane_3_in.getText().toString()) != 0) {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -753,11 +708,11 @@ public class ai_traffic_sequencing_thread extends Thread {
             }
         } else {
             while (SimulationActivity.running) {
-
-                if ((light_one_count[0] - light_two_count[0]) > max_light_gap || (light_one_count[0] - light_three_count[0]) > max_light_gap || (light_one_count[0] - light_four_count[0]) > max_light_gap
-                        || (light_two_count[0] - light_one_count[0]) > max_light_gap || (light_two_count[0] - light_three_count[0]) > max_light_gap || (light_two_count[0] - light_four_count[0]) > max_light_gap
-                        || (light_three_count[0] - light_one_count[0]) > max_light_gap || (light_three_count[0] - light_two_count[0]) > max_light_gap || (light_three_count[0] - light_four_count[0]) > max_light_gap
-                        || (light_four_count[0] - light_one_count[0]) > max_light_gap || (light_four_count[0] - light_two_count[0]) > max_light_gap || (light_four_count[0] - light_three_count[0]) > max_light_gap) {
+                Log.d("counts: ", "count: " + light_one_count[0] + " count2: " + light_two_count[0] + " count3: " + light_three_count[0] + " count4: " + light_four_count[0]);
+                if ((light_one_count[0] - light_two_count[0]) > rounda_max_light_gap || (light_one_count[0] - light_three_count[0]) > rounda_max_light_gap || (light_one_count[0] - light_four_count[0]) > rounda_max_light_gap
+                        || (light_two_count[0] - light_one_count[0]) > rounda_max_light_gap || (light_two_count[0] - light_three_count[0]) > rounda_max_light_gap || (light_two_count[0] - light_four_count[0]) > rounda_max_light_gap
+                        || (light_three_count[0] - light_one_count[0]) > rounda_max_light_gap || (light_three_count[0] - light_two_count[0]) > rounda_max_light_gap || (light_three_count[0] - light_four_count[0]) > rounda_max_light_gap
+                        || (light_four_count[0] - light_one_count[0]) > rounda_max_light_gap || (light_four_count[0] - light_two_count[0]) > rounda_max_light_gap || (light_four_count[0] - light_three_count[0]) > rounda_max_light_gap) {
                     if (light_one_count[0] < light_two_count[0] && light_one_count[0] < light_three_count[0] && light_one_count[0] < light_four_count[0]) {
                         if (SimulationActivity.roundabout_ai_light_1.getText().toString().equals("green")) {
                             light_one_count[0]++;
@@ -1124,7 +1079,7 @@ public class ai_traffic_sequencing_thread extends Thread {
                     int lane2_val = Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString());
                     int lane3_val = Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString());
                     int lane4_val = Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString());
-                    PyObject roundabout = pyObj.callAttr("roundabout", lane1_val, lane2_val, lane3_val, lane4_val, c.getFilesDir().toString());
+                    PyObject roundabout = pyObj.callAttr("roundabout", lane1_val, lane2_val, lane3_val, lane4_val);
                     Log.d("rounda_ai: ", roundabout.toString());
                     char[] result = roundabout.toString().replaceAll("[\\[\\]]", "").toCharArray();
                     int length = Array.getLength(result);
@@ -1137,62 +1092,52 @@ public class ai_traffic_sequencing_thread extends Thread {
                     if (new_green != 0) {
                         if (SimulationActivity.roundabout_ai_light_1.getText().toString().equals("green")) {
                             if (new_green != 1) {
-                                if (new_green == 2) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_1.setText("red");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
-                                } else if (new_green == 3) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_1.setText("red");
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_3.setText("green");
-                                                light_three_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (new_green == 2 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_1.setText("red");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+                                } else if (new_green == 3 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_1.setText("red");
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_3.setText("green");
+                                            light_three_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1219,62 +1164,52 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.roundabout_ai_light_2.getText().toString().equals("green")) {
                             if (new_green != 2) {
-                                if (new_green == 1) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_2.setText("red");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_1.setText("green");
-                                                light_one_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
-                                } else if (new_green == 3) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_2.setText("red");
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_3.setText("green");
-                                                light_three_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (new_green == 1 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_2.setText("red");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_1.setText("green");
+                                            light_one_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+                                } else if (new_green == 3 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_2.setText("red");
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_3.setText("green");
+                                            light_three_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1301,62 +1236,52 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.roundabout_ai_light_3.getText().toString().equals("green")) {
                             if (new_green != 3) {
-                                if (new_green == 2) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_3.setText("red");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
-                                } else if (new_green == 1) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_3.setText("red");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_1.setText("green");
-                                                light_one_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (new_green == 2 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_3.setText("red");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+                                } else if (new_green == 1 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_3.setText("red");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_1.setText("green");
+                                            light_one_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1383,62 +1308,52 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.roundabout_ai_light_4.getText().toString().equals("green")) {
                             if (new_green != 4) {
-                                if (new_green == 2) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_4.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_4.setText("red");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
-                                } else if (new_green == 1) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_4.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_4.setText("red");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_1.setText("green");
-                                                light_one_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (new_green == 2 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_4.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_4.setText("red");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+                                } else if (new_green == 1 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_4.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_4.setText("red");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_1.setText("green");
+                                            light_one_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1464,76 +1379,63 @@ public class ai_traffic_sequencing_thread extends Thread {
                                 }
                             }
                         } else {
-                            if (new_green == 1) {
-                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.roundabout_ai_light_1.setText("green");
-                                            light_one_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
-                            } else if (new_green == 2) {
-                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.roundabout_ai_light_2.setText("green");
-                                            light_two_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
-                            } else if (new_green == 3) {
-                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.roundabout_ai_light_3.setText("green");
-                                            light_three_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
+                            if (new_green == 1 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.roundabout_ai_light_1.setText("green");
+                                        light_one_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
+                            } else if (new_green == 2 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.roundabout_ai_light_2.setText("green");
+                                        light_two_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
+                            } else if (new_green == 3 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.roundabout_ai_light_3.setText("green");
+                                        light_three_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
+
                             } else {
-                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) == 0)
-                                    return;
-                                else {
+                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) != 0) {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -1559,62 +1461,52 @@ public class ai_traffic_sequencing_thread extends Thread {
                         int rand_no = rand.nextInt(3) + 1;
                         if (SimulationActivity.roundabout_ai_light_1.getText().toString().equals("green")) {
                             if (rand_no != 1) {
-                                if (rand_no == 2) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_1.setText("red");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
-                                } else if (rand_no == 3) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_1.setText("red");
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_3.setText("green");
-                                                light_three_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (rand_no == 2 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_1.setText("red");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+                                } else if (rand_no == 3 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_1.setText("red");
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_3.setText("green");
+                                            light_three_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1641,62 +1533,52 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.roundabout_ai_light_2.getText().toString().equals("green")) {
                             if (rand_no != 2) {
-                                if (rand_no == 1) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_2.setText("red");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_1.setText("green");
-                                                light_one_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
-                                } else if (rand_no == 3) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_2.setText("red");
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_3.setText("green");
-                                                light_three_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (rand_no == 1 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_2.setText("red");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_1.setText("green");
+                                            light_one_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+                                } else if (rand_no == 3 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_2.setText("red");
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_3.setText("green");
+                                            light_three_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1723,62 +1605,52 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.roundabout_ai_light_3.getText().toString().equals("green")) {
                             if (rand_no != 3) {
-                                if (rand_no == 2) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_3.setText("red");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
-                                } else if (rand_no == 1) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_3.setText("red");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_1.setText("green");
-                                                light_one_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (rand_no == 2 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_3.setText("red");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+                                } else if (rand_no == 1 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_3.setText("red");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_1.setText("green");
+                                            light_one_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1805,62 +1677,53 @@ public class ai_traffic_sequencing_thread extends Thread {
                             }
                         } else if (SimulationActivity.roundabout_ai_light_4.getText().toString().equals("green")) {
                             if (rand_no != 4) {
-                                if (rand_no == 2) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_4.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_4.setText("red");
-                                                SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_2.setText("green");
-                                                light_two_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
-                                } else if (rand_no == 1) {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) == 0)
-                                        return;
-                                    else {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_4.setText("orange");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                                SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                            }
-                                        });
-                                        SystemClock.sleep(orangetime);
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_red);
-                                                SimulationActivity.roundabout_ai_light_4.setText("red");
-                                                SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                                SimulationActivity.roundabout_ai_light_1.setText("green");
-                                                light_one_count[0]++;
-                                            }
-                                        });
-                                        SystemClock.sleep(seconds);
-                                    }
+                                if (rand_no == 2 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_4.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_4.setText("red");
+                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_2.setText("green");
+                                            light_two_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+                                } else if (rand_no == 1 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) != 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_4.setText("orange");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                        }
+                                    });
+                                    SystemClock.sleep(orangetime);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            SimulationActivity.roundabout_ai_light_4.setBackgroundResource(R.drawable.traffic_light_red);
+                                            SimulationActivity.roundabout_ai_light_4.setText("red");
+                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                            SimulationActivity.roundabout_ai_light_1.setText("green");
+                                            light_one_count[0]++;
+                                        }
+                                    });
+                                    SystemClock.sleep(seconds);
+
                                 } else {
-                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) == 0)
-                                        return;
-                                    else {
+                                    if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) != 0) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1886,76 +1749,62 @@ public class ai_traffic_sequencing_thread extends Thread {
                                 }
                             }
                         } else {
-                            if (rand_no == 1) {
-                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.roundabout_ai_light_1.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.roundabout_ai_light_1.setText("green");
-                                            light_one_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
-                            } else if (rand_no == 2) {
-                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.roundabout_ai_light_2.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.roundabout_ai_light_2.setText("green");
-                                            light_two_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
-                            } else if (rand_no == 3) {
-                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) == 0)
-                                    return;
-                                else {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
-                                            SimulationActivity.roundabout_ai_light_3.setText("orange");
-                                        }
-                                    });
-                                    SystemClock.sleep(orangetime);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
-                                            SimulationActivity.roundabout_ai_light_3.setText("green");
-                                            light_three_count[0]++;
-                                        }
-                                    });
-                                    SystemClock.sleep(seconds);
-                                }
+                            if (rand_no == 1 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_1_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.roundabout_ai_light_1.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_1.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.roundabout_ai_light_1.setText("green");
+                                        light_one_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
+                            } else if (rand_no == 2 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_2_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.roundabout_ai_light_2.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_2.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.roundabout_ai_light_2.setText("green");
+                                        light_two_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
+                            } else if (rand_no == 3 && Integer.parseInt(SimulationActivity.roundabout_ai_lane_3_in.getText().toString()) != 0) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_orange);
+                                        SimulationActivity.roundabout_ai_light_3.setText("orange");
+                                    }
+                                });
+                                SystemClock.sleep(orangetime);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SimulationActivity.roundabout_ai_light_3.setBackgroundResource(R.drawable.traffic_light_green);
+                                        SimulationActivity.roundabout_ai_light_3.setText("green");
+                                        light_three_count[0]++;
+                                    }
+                                });
+                                SystemClock.sleep(seconds);
                             } else {
-                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) == 0)
-                                    return;
-                                else {
+                                if (Integer.parseInt(SimulationActivity.roundabout_ai_lane_4_in.getText().toString()) != 0) {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
