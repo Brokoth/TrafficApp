@@ -34,7 +34,8 @@ public class ai_traffic_sequencing_thread extends Thread {
     public void run() {
         handler = new Handler(Looper.getMainLooper());
         int seconds = 8000;
-        //orangetime = orangetime * 1000;
+       // orangetime = orangetime * 1000;
+        orangetime = 2000;
         int new_green = 0;
         if (!Python.isStarted())
             Python.start(new AndroidPlatform(c));

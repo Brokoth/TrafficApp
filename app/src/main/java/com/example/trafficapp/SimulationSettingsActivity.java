@@ -7,10 +7,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
     private Button defaults;
     private ProgressBar settingsBar;
     private FirebaseFirestore db;
+    private Spinner orangespinner,addspinner;
     private EditText orange_value, green_value, addition_time;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +47,19 @@ public class SimulationSettingsActivity extends AppCompatActivity {
         TextView title = toolbar.findViewById(R.id.toolbar_title);
         title.setText("Simulation Settings");
         back = toolbar.findViewById(R.id.back);
-        orange_value = findViewById(R.id.orange_time);
+        orangespinner = findViewById(R.id.orange_time_spin);
         settingsBar = findViewById(R.id.settings_progressBar);
         green_value = findViewById(R.id.green_time);
-        addition_time = findViewById(R.id.addition_time);
+        addspinner = findViewById(R.id.add_time_spin);
         cust_vids = findViewById(R.id.custom_traffic);
         save = findViewById(R.id.save_btn);
-        defaults = findViewById(R.id.defaults_btn);
+        ArrayAdapter<CharSequence> orangeSpinneradapter = ArrayAdapter.createFromResource(this, R.array.orangeTimings, R.layout.sim_settimgs_spinner_item);
+        orangeSpinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        orangespinner.setAdapter(orangeSpinneradapter);
+        ArrayAdapter<CharSequence> addSpinneradapter = ArrayAdapter.createFromResource(this, R.array.densityTimings, R.layout.sim_settimgs_spinner_item);
+        addSpinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        addspinner.setAdapter(addSpinneradapter);
+     //   defaults = findViewById(R.id.defaults_btn);
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
             startActivity(new Intent(SimulationSettingsActivity.this, LoginActivity.class));
@@ -60,25 +69,25 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     green_value.setText(documentSnapshot.getString("greenTime"));
-                    orange_value.setText(documentSnapshot.getString("orangeTime"));
-                    addition_time.setText(documentSnapshot.getString("additionTime"));
+                    addspinner.setSelection(addSpinneradapter.getPosition( documentSnapshot.getString("additionTime")));
+                    orangespinner.setSelection(orangeSpinneradapter.getPosition( documentSnapshot.getString("orangeTime")));
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-
+                    Toast.makeText(SimulationSettingsActivity.this, "Failed to Retrieve user data. Try Again Later", Toast.LENGTH_SHORT).show();
                 }
             });
         }
-        defaults.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                green_value.setText("10");
-                orange_value.setText("3");
-                addition_time.setText("5");
-            }
-        });
+//        defaults.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                green_value.setText("10");
+//                orange_value.setText("3");
+//                addition_time.setText("5");
+//            }
+//        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +111,7 @@ public class SimulationSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 settingsBar.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(orange_value.getText().toString())) {
+                if (TextUtils.isEmpty(orangespinner.getSelectedItem().toString())) {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the duration time for orange light", Toast.LENGTH_SHORT).show();
                     settingsBar.setVisibility(View.GONE);
                     return;
@@ -110,13 +119,13 @@ public class SimulationSettingsActivity extends AppCompatActivity {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the duration time for green light", Toast.LENGTH_SHORT).show();
                     settingsBar.setVisibility(View.GONE);
                     return;
-                } else if (TextUtils.isEmpty(addition_time.getText().toString())) {
+                } else if (TextUtils.isEmpty(addspinner.getSelectedItem().toString())) {
                     Toast.makeText(SimulationSettingsActivity.this, "Set the time between density increases", Toast.LENGTH_SHORT).show();
                     settingsBar.setVisibility(View.GONE);
                     return;
                 } else {
                     db.collection("Users").document(uid).collection("Simulation_Settings")
-                            .document("timings").update("greenTime", green_value.getText().toString(), "orangeTime", orange_value.getText().toString(), "additionTime", addition_time.getText().toString())
+                            .document("timings").update("greenTime", green_value.getText().toString(), "orangeTime", orangespinner.getSelectedItem().toString(), "additionTime", addspinner.getSelectedItem().toString())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

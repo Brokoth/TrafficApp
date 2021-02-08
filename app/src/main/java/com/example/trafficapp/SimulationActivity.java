@@ -42,7 +42,7 @@ public class SimulationActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ImageView back, sim_settings;
     private Button startsim, stopsim;
-    private ProgressBar tjunpbar,roundapbar;
+    private ProgressBar tjunpbar, roundapbar;
     public static Boolean running = false;
     private Spinner junctionspinner = null, densityspinner = null;
     private LinearLayout tjunction_layout, roundabout_layout, j_selection_layout, d_selection_layout;
@@ -256,7 +256,8 @@ public class SimulationActivity extends AppCompatActivity {
                                         String orange_Time = documentSnapshot.getString("orangeTime");
                                         String subtraction_Time = documentSnapshot.getString("subtractionTime");
                                         if (densityspinner.getSelectedItem().toString().equals("Custom")) {
-                                            if (laneone_link.equals("") || lanetwo_link.equals("") || lanethree_link.equals("") || lanefour_link.equals("")) {
+                                            if (laneone_link.equals("") || lanetwo_link.equals("") || lanethree_link.equals("") || lanefour_link.equals("")
+                                                    || laneone_link == null || lanetwo_link == null || lanethree_link == null || lanefour_link == null) {
                                                 Toast.makeText(SimulationActivity.this, "Add some custom footage in the settings first", Toast.LENGTH_SHORT).show();
                                                 return;
                                             } else {
@@ -270,7 +271,7 @@ public class SimulationActivity extends AppCompatActivity {
                                                     public void onSuccess(DocumentReference documentReference) {
                                                         simulationid = documentReference.getId();
                                                         if (junctionspinner.getSelectedItem().toString().equals("T junction")) {
-                                                            tjunEfficiencyThread = new tjun_efficiency_thread(tjunction_ai_lane_1_in, tjunction_ai_lane_2_in, tjunction_ai_lane_3_in, tjunction_con_lane_1_in, tjunction_con_lane_2_in, tjunction_con_lane_3_in, SimulationActivity.this, simulationid, id,tjunpbar);
+                                                            tjunEfficiencyThread = new tjun_efficiency_thread(tjunction_ai_lane_1_in, tjunction_ai_lane_2_in, tjunction_ai_lane_3_in, tjunction_con_lane_1_in, tjunction_con_lane_2_in, tjunction_con_lane_3_in, SimulationActivity.this, simulationid, id, tjunpbar);
                                                             tjunEfficiencyThread.start();
                                                             conLane1AddThread = new t_lane_1_add_thread(addition_Time, densityspinner.getSelectedItem().toString(), lane1_int_array, tjunction_con_lane_1_in, tjunction_ai_lane_1_in);
                                                             conLane1AddThread.start();
@@ -295,7 +296,7 @@ public class SimulationActivity extends AppCompatActivity {
                                                             aiTrafficSequencingThread = new ai_traffic_sequencing_thread(Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
                                                             aiTrafficSequencingThread.start();
                                                         } else {
-                                                            roundaEfficiencyThread = new rounda_efficiency_thread(roundabout_ai_lane_1_in, roundabout_ai_lane_2_in, roundabout_ai_lane_3_in, roundabout_ai_lane_4_in, roundabout_con_lane_1_in, roundabout_con_lane_2_in, roundabout_con_lane_3_in, roundabout_con_lane_4_in, SimulationActivity.this, simulationid, id,roundapbar);
+                                                            roundaEfficiencyThread = new rounda_efficiency_thread(roundabout_ai_lane_1_in, roundabout_ai_lane_2_in, roundabout_ai_lane_3_in, roundabout_ai_lane_4_in, roundabout_con_lane_1_in, roundabout_con_lane_2_in, roundabout_con_lane_3_in, roundabout_con_lane_4_in, SimulationActivity.this, simulationid, id, roundapbar);
                                                             roundaEfficiencyThread.start();
                                                             roundaLane1AddThread = new rounda_lane_1_add_thread(addition_Time, densityspinner.getSelectedItem().toString(), lane1_int_array, roundabout_con_lane_1_in, roundabout_ai_lane_1_in);
                                                             roundaLane1AddThread.start();
@@ -345,7 +346,7 @@ public class SimulationActivity extends AppCompatActivity {
                                                 public void onSuccess(DocumentReference documentReference) {
                                                     simulationid = documentReference.getId();
                                                     if (junctionspinner.getSelectedItem().toString().equals("T junction")) {
-                                                        tjunEfficiencyThread = new tjun_efficiency_thread(tjunction_ai_lane_1_in, tjunction_ai_lane_2_in, tjunction_ai_lane_3_in, tjunction_con_lane_1_in, tjunction_con_lane_2_in, tjunction_con_lane_3_in, SimulationActivity.this, simulationid, id,tjunpbar);
+                                                        tjunEfficiencyThread = new tjun_efficiency_thread(tjunction_ai_lane_1_in, tjunction_ai_lane_2_in, tjunction_ai_lane_3_in, tjunction_con_lane_1_in, tjunction_con_lane_2_in, tjunction_con_lane_3_in, SimulationActivity.this, simulationid, id, tjunpbar);
                                                         tjunEfficiencyThread.start();
                                                         conLane1AddThread = new t_lane_1_add_thread(addition_Time, densityspinner.getSelectedItem().toString(), lane1_int_array, tjunction_con_lane_1_in, tjunction_ai_lane_1_in);
                                                         conLane1AddThread.start();
@@ -398,7 +399,7 @@ public class SimulationActivity extends AppCompatActivity {
                                                         }
                                                     } else {
 
-                                                        roundaEfficiencyThread = new rounda_efficiency_thread(roundabout_ai_lane_1_in, roundabout_ai_lane_2_in, roundabout_ai_lane_3_in, roundabout_ai_lane_4_in, roundabout_con_lane_1_in, roundabout_con_lane_2_in, roundabout_con_lane_3_in, roundabout_con_lane_4_in, SimulationActivity.this, simulationid, id,roundapbar);
+                                                        roundaEfficiencyThread = new rounda_efficiency_thread(roundabout_ai_lane_1_in, roundabout_ai_lane_2_in, roundabout_ai_lane_3_in, roundabout_ai_lane_4_in, roundabout_con_lane_1_in, roundabout_con_lane_2_in, roundabout_con_lane_3_in, roundabout_con_lane_4_in, SimulationActivity.this, simulationid, id, roundapbar);
                                                         roundaEfficiencyThread.start();
                                                         roundaLane1AddThread = new rounda_lane_1_add_thread(addition_Time, densityspinner.getSelectedItem().toString(), lane1_int_array, roundabout_con_lane_1_in, roundabout_ai_lane_1_in);
                                                         roundaLane1AddThread.start();
