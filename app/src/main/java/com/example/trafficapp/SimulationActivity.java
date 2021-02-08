@@ -293,7 +293,7 @@ public class SimulationActivity extends AppCompatActivity {
                                                             aiLane3SubThread.start();
                                                             controlTrafficSequencingThread = new control_traffic_sequencing_thread(Integer.parseInt(green_Time), Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this, tjunction_con_light_1, tjunction_con_light_2, tjunction_con_light_3);
                                                             controlTrafficSequencingThread.start();
-                                                            aiTrafficSequencingThread = new ai_traffic_sequencing_thread(Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
+                                                            aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
                                                             aiTrafficSequencingThread.start();
                                                         } else {
                                                             roundaEfficiencyThread = new rounda_efficiency_thread(roundabout_ai_lane_1_in, roundabout_ai_lane_2_in, roundabout_ai_lane_3_in, roundabout_ai_lane_4_in, roundabout_con_lane_1_in, roundabout_con_lane_2_in, roundabout_con_lane_3_in, roundabout_con_lane_4_in, SimulationActivity.this, simulationid, id, roundapbar);
@@ -324,7 +324,7 @@ public class SimulationActivity extends AppCompatActivity {
                                                             roundaAiLane4SubThread.start();
                                                             controlTrafficSequencingThread = new control_traffic_sequencing_thread(Integer.parseInt(green_Time), Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this, roundabout_con_light_1, roundabout_con_light_2, roundabout_con_light_3, roundabout_con_light_4);
                                                             controlTrafficSequencingThread.start();
-                                                            aiTrafficSequencingThread = new ai_traffic_sequencing_thread(Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
+                                                            aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
                                                             aiTrafficSequencingThread.start();
                                                         }
 
@@ -368,7 +368,7 @@ public class SimulationActivity extends AppCompatActivity {
                                                         aiLane3SubThread.start();
                                                         controlTrafficSequencingThread = new control_traffic_sequencing_thread(Integer.parseInt(green_Time), Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this, tjunction_con_light_1, tjunction_con_light_2, tjunction_con_light_3);
                                                         controlTrafficSequencingThread.start();
-                                                        aiTrafficSequencingThread = new ai_traffic_sequencing_thread(Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
+                                                        aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
                                                         aiTrafficSequencingThread.start();
                                                         if (densityspinner.getSelectedItem().toString().equals("Heavy Traffic")) {
                                                             tjunction_con_lane_1_in.setText("10");
@@ -427,7 +427,7 @@ public class SimulationActivity extends AppCompatActivity {
                                                         roundaAiLane4SubThread.start();
                                                         controlTrafficSequencingThread = new control_traffic_sequencing_thread(Integer.parseInt(green_Time), Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this, roundabout_con_light_1, roundabout_con_light_2, roundabout_con_light_3, roundabout_con_light_4);
                                                         controlTrafficSequencingThread.start();
-                                                        aiTrafficSequencingThread = new ai_traffic_sequencing_thread(Integer.parseInt(orange_Time), junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
+                                                        aiTrafficSequencingThread = new ai_traffic_sequencing_thread(junctionspinner.getSelectedItem().toString(), SimulationActivity.this);
                                                         aiTrafficSequencingThread.start();
                                                         if (densityspinner.getSelectedItem().toString().equals("Heavy Traffic")) {
                                                             roundabout_con_lane_1_in.setText("10");

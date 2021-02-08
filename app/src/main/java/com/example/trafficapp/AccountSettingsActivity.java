@@ -83,6 +83,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(AccountSettingsActivity.this,
+                        HomeActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -208,6 +211,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(AccountSettingsActivity.this,
+                HomeActivity.class);
+        startActivity(intent);
         finish();
     }
 

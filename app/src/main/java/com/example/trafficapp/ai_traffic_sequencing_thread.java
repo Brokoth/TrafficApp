@@ -19,13 +19,11 @@ import java.util.Random;
 public class ai_traffic_sequencing_thread extends Thread {
     private String junctionType;
     private Context c;
-    private int orangetime;
     public Handler handler;
 
-    ai_traffic_sequencing_thread(int orangetime, String junctionType, Context c) {
+    ai_traffic_sequencing_thread(String junctionType, Context c) {
         this.junctionType = junctionType;
         this.c = c;
-        this.orangetime = orangetime;
 
     }
 
@@ -34,15 +32,15 @@ public class ai_traffic_sequencing_thread extends Thread {
     public void run() {
         handler = new Handler(Looper.getMainLooper());
         int seconds = 8000;
-       // orangetime = orangetime * 1000;
-        orangetime = 2000;
+        // orangetime = orangetime * 1000;
+        int orangetime = 2000;
         int new_green = 0;
         if (!Python.isStarted())
             Python.start(new AndroidPlatform(c));
         Python python = Python.getInstance();
         PyObject pyObj = python.getModule("traffic_light_python_script");
         pyObj.callAttr("main");
-        int tjun_max_light_gap = 3;
+        int tjun_max_light_gap = 2;
         int rounda_max_light_gap = 3;
         final int[] light_one_count = {0};
         final int[] light_two_count = {0};
